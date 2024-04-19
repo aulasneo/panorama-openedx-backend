@@ -16,6 +16,14 @@ class PanoramaOpenedxBackendConfig(AppConfig):
     name = 'panorama_openedx_backend'
 
     plugin_app = {
+        'url_config': {
+            'lms.djangoapp': {
+                # 'namespace': 'panorama',
+                'regex': 'panorama/api/get-embed-url',
+                'relative_path': 'urls',
+            }
+        },
+
         "settings_config": {
             "lms.djangoapp": {
                 "common": {"relative_path": "settings.common"},
