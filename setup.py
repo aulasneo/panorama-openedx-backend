@@ -140,7 +140,11 @@ setup(
         include=['panorama_openedx_backend', 'panorama_openedx_backend.*'],
         exclude=["*tests"],
     ),
-
+    entry_points={
+        "lms.djangoapp": [
+            "panorama_openedx_backend = panorama_openedx_backend.apps:PanoramaOpenedxBackendConfig",
+        ],
+    },
     include_package_data=True,
     install_requires=load_requirements('requirements/base.in'),
     python_requires=">=3.8",
