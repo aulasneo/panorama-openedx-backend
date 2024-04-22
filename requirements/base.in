@@ -5,3 +5,5 @@ Django             # Web application framework
 django-model-utils        # Provides TimeStampedModel abstract base class
 
 openedx-atlas
+
+boto3==1.34.87
