@@ -7,7 +7,6 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-
 class PanoramaOpenedxBackendConfig(AppConfig):
     """
     Configuration for the panorama_openedx_backend Django application.
