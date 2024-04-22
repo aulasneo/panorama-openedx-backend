@@ -51,7 +51,7 @@ class GetDashboardEmbedUrl(APIView):
 
         quicksight = session.client(
             "quicksight",
-            region_name='us-west-2',
+            region_name='us-east-1',
         )
 
         user = request.user
