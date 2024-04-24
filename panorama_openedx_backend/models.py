@@ -1,24 +1,119 @@
 """
 Database models for panorama_openedx_backend.
 """
-# from django.db import models
+from django.db import models
 from model_utils.models import TimeStampedModel
+from django.contrib.auth import get_user_model
+from django.utils.translation import gettext as _
+
+User = get_user_model()
+
+ROLES = [
+    ("READER", "Reader"),
+    ("AUTHOR", "Author"),
+    ("AI_AUTHOR", "AI Author"),
+]
 
 
-class panorama_config(TimeStampedModel):
+class Dashboard(TimeStampedModel):
     """
-    TODO: replace with a brief description of the model.
-
-    TODO: Add either a negative or a positive PII annotation to the end of this docstring.  For more
-    information, see OEP-30:
-    https://open-edx-proposals.readthedocs.io/en/latest/oep-0030-arch-pii-markup-and-auditing.html
+    .. no_pii:
     """
 
-    # TODO: add field definitions
+    dashboard_id = models.CharField(
+        max_length=50,
+        blank=False,
+        primary_key=True,
+        default='',
+        unique=True,
+        help_text=_("Quicksight Dashboard ID"),
+    )
+
+    name = models.CharField(
+        max_length=50,
+        blank=False,
+        primary_key=False,
+        default='',
+        unique=True,
+        help_text=_("Dashboard name"),
+    )
+
+    display_name = models.CharField(
+        max_length=50,
+        blank=False,
+        primary_key=False,
+        default='',
+        unique=True,
+        help_text=_("Dashboard display_name"),
+    )
 
     def __str__(self):
         """
         Get a string representation of this model instance.
         """
-        # TODO: return a string appropriate for the data fields
-        return '<panorama_config, ID: {}>'.format(self.id)
+        return self.name
+
+
+class DashboardType(TimeStampedModel):
+    """
+    .. no_pii:
+    """
+
+    name = models.CharField(
+        max_length=50,
+        blank=False,
+        primary_key=True,
+        default='',
+        unique=True,
+        help_text=_("Dashboard type name"),
+    )
+
+    dashboards = models.ManyToManyField("Dashboard")
+
+    def __str__(self):
+        """
+        Get a string representation of this model instance.
+        """
+        return self.name
+
+
+class UserAccessConfiguration(TimeStampedModel):
+    """
+    .. no_pii:
+    """
+
+    user = models.OneToOneField(
+        to=User,
+        on_delete=models.CASCADE
+    )
+
+    dashboard_type = models.ForeignKey(
+        to="DashboardType",
+        on_delete=models.CASCADE
+    )
+
+    arn = models.CharField(
+        verbose_name='ARN',
+        max_length=50,
+        blank=False,
+        primary_key=False,
+        default='',
+        unique=False,
+        help_text=_("Quicksight user ARN"),
+    )
+
+    role = models.CharField(
+        max_length=20,
+        blank=False,
+        primary_key=False,
+        default='Reader',
+        unique=False,
+        choices=ROLES,
+        help_text=_("User role"),
+    )
+
+    def __str__(self):
+        """
+        Get a string representation of this model instance.
+        """
+        return f'User {self.user}: {self.role} of {self.dashboard_type} dashboards as ARN {self.arn}'

@@ -137,7 +137,7 @@ setup(
     author_email='andres@aulasneo.com',
     url='https://github.com/aulasneo/panorama-openedx-backend',
     packages=find_packages(
-        include=['panorama_openedx_backend', 'panorama_openedx_backend.*'],
+        # include=['panorama_openedx_backend', 'panorama_openedx_backend.*'],
         exclude=["*tests"],
     ),
     entry_points={
