@@ -47,6 +47,12 @@ class Dashboard(TimeStampedModel):
         help_text=_("Dashboard display_name"),
     )
 
+    priority = models.IntegerField(
+        default=10,
+        blank=False,
+        help_text=_("Order of appearance in the menu. The lower the number, the higher the position.")
+    )
+
     def __str__(self):
         """
         Get a string representation of this model instance.

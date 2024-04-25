@@ -19,10 +19,12 @@ logger = logging.getLogger(__name__)
 
 class DashboardAdmin(admin.ModelAdmin):
     list_display = [
+        "priority",
         "dashboard_id",
         "name",
         "display_name",
     ]
+    ordering = ("priority",)
 
 
 class DashboardTypeAdmin(admin.ModelAdmin):

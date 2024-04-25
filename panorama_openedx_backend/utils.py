@@ -46,7 +46,7 @@ def get_user_dashboards(user: User) -> list:
     dashboard_type = user_access_configuration.dashboard_type
 
     dashboard_list = []
-    for dashboard in dashboard_type.dashboards.all():
+    for dashboard in dashboard_type.dashboards.all().order_by('priority'):
         dashboard_list.append({
             "name": dashboard.name,
             "displayName": dashboard.display_name,
