@@ -24,30 +24,58 @@ class GetDashboardEmbedUrl(APIView):
 
         user_meta = json.loads(user.profile.meta)
 
-        quicksightARN = get_user_arn(user)
 
         # CHECKING IF USER HAS A ARN SET
+        quicksightARN = get_user_arn(user)
         if not quicksightARN:
             raise ValueError('Error 403 - Forbidden')
         
-        dashboards_of_user = get_user_dashboards(user)
 
         # CHECKING IF USER HAS A DASHBOARD TYPE SET
+        dashboards_of_user = get_user_dashboards(user)
         if not dashboards_of_user:
             raise ValueError('Error 404 - Dashboard not assigned')
 
-        all_dashboards = settings.PANORAMA_DASHBOARD_TYPES
+
+        # CHECKING IF USER HAS A ROLE SET
+        user_role = get_user_role(user)
+        if not user_role:
+            raise ValueError('Error 404 - User role not assigned')
 
         for dashboard in dashboards_of_user:
-            response = quicksight.generate_embed_url_for_registered_user(
-                AwsAccountId=settings.PANORAMA_AWS_ACCOUNT_ID,
-                SessionLifetimeInMinutes=123,
-                UserArn=quicksightARN,
-                ExperienceConfiguration={
+
+            # SETTING EXPERIENCE CONFIG ACCORDING TO USER ROLE
+            if user_role == "READER":
+                experience_config = {
                     'Dashboard': {
                         'InitialDashboardId': dashboard['id'],
                     }
                 }
+
+            if user_role == "AUTHOR":
+                experience_config = {
+                    'QuickSightConsole': {
+                        'InitialPath': "/start",
+                        'FeatureConfigurations': {
+                            'StatePersistence': {
+                                'Enabled': True
+                            },
+                        },
+                    }
+                }
+            
+            if user_role == "AI_AUTHOR":
+                experience_config = {
+                    'QSearchBar': { 
+                        'InitialTopicId': "CVomHyE9Wf06YnPHcaFom4IFRSV2eAVv"
+                    },
+                }
+
+            response = quicksight.generate_embed_url_for_registered_user(
+                AwsAccountId=settings.PANORAMA_AWS_ACCOUNT_ID,
+                SessionLifetimeInMinutes=123,
+                UserArn=quicksightARN,
+                ExperienceConfiguration=experience_config
             )
             dashboard['url'] = response['EmbedUrl']
 
@@ -66,4 +94,15 @@ class GetUserAccess(APIView):
         return Response({
             'statusCode': 200,
             'body': has_access_to_panorama(request.user)
+        })
+
+class GetUserRole(APIView):
+
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+
+        return Response({
+            'statusCode': 200,
+            'body': get_user_role(request.user)
         })
