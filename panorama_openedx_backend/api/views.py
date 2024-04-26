@@ -42,17 +42,20 @@ class GetDashboardEmbedUrl(APIView):
         if not user_role:
             raise ValueError('Error 404 - User role not assigned')
 
+        dashboard_function = request.GET.get("dashboard_function")
+
+
         for dashboard in dashboards_of_user:
 
             # SETTING EXPERIENCE CONFIG ACCORDING TO USER ROLE
-            if user_role == "READER":
+            if dashboard_function == "READER":
                 experience_config = {
                     'Dashboard': {
                         'InitialDashboardId': dashboard['id'],
                     }
                 }
 
-            if user_role == "AUTHOR":
+            if dashboard_function == "AUTHOR":
                 experience_config = {
                     'QuickSightConsole': {
                         'InitialPath': "/start",
@@ -64,7 +67,7 @@ class GetDashboardEmbedUrl(APIView):
                     }
                 }
             
-            if user_role == "AI_AUTHOR":
+            if dashboard_function == "AI_AUTHOR":
                 experience_config = {
                     'QSearchBar': { 
                         'InitialTopicId': "CVomHyE9Wf06YnPHcaFom4IFRSV2eAVv"
