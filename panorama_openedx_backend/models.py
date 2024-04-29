@@ -1,10 +1,10 @@
 """
 Database models for panorama_openedx_backend.
 """
-from django.db import models
-from model_utils.models import TimeStampedModel
 from django.contrib.auth import get_user_model
+from django.db import models
 from django.utils.translation import gettext as _
+from model_utils.models import TimeStampedModel
 
 User = get_user_model()
 
@@ -17,7 +17,7 @@ ROLES = [
 
 class Dashboard(TimeStampedModel):
     """
-    .. no_pii:
+    .. no_pii:.
     """
 
     dashboard_id = models.CharField(
@@ -62,7 +62,7 @@ class Dashboard(TimeStampedModel):
 
 class DashboardType(TimeStampedModel):
     """
-    .. no_pii:
+    .. no_pii:.
     """
 
     name = models.CharField(
@@ -85,7 +85,7 @@ class DashboardType(TimeStampedModel):
 
 class UserAccessConfiguration(TimeStampedModel):
     """
-    .. no_pii:
+    .. no_pii:.
     """
 
     user = models.OneToOneField(

@@ -2,10 +2,12 @@
 panorama_openedx_backend Django application initialization.
 """
 
-from django.apps import AppConfig
 import logging
 
+from django.apps import AppConfig
+
 logger = logging.getLogger(__name__)
+
 
 class PanoramaOpenedxBackendConfig(AppConfig):
     """

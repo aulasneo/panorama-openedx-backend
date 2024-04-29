@@ -9,7 +9,6 @@ def plugin_settings(settings):
     """
     Inject local settings into django settings.
     """
-
+    print(settings)
     # settings.EXAMPLE = value
-    pass
-
+    # pass

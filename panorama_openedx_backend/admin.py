@@ -18,6 +18,10 @@ logger = logging.getLogger(__name__)
 
 
 class DashboardAdmin(admin.ModelAdmin):
+    """
+    Dashboard admin class.
+    """
+
     list_display = [
         "priority",
         "dashboard_id",
