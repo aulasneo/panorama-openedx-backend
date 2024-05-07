@@ -11,6 +11,12 @@ Change Log
 
 .. There should always be an "Version 16.0.1 (2024-05-07)" section for changes pending release.
 
+Unreleased
+**********
+
+* Fix: add https:// to embed url
+
+
 Version 16.0.1 (2024-05-07)
 **********
 

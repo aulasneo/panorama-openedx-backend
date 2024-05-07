@@ -76,13 +76,13 @@ class GetDashboardEmbedUrl(APIView):
 
             if dashboard_function == "AI_AUTHOR":
                 experience_config = {
-                    'QSearchBar': {
+                    'GenerativeQnA': {
                         'InitialTopicId': "CVomHyE9Wf06YnPHcaFom4IFRSV2eAVv"
                     },
                 }
 
             response = quicksight.generate_embed_url_for_registered_user(
-                AllowedDomains=[f"*.{settings.LMS_BASE}"],
+                AllowedDomains=[f"https://apps.{settings.LMS_BASE}"],
                 AwsAccountId=settings.PANORAMA_AWS_ACCOUNT_ID,
                 SessionLifetimeInMinutes=123,
                 UserArn=quicksightARN,
