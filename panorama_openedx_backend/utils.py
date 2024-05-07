@@ -1,7 +1,6 @@
 """
 Utility functions to access the Panorama configurations.
 """
-
 from django.contrib.auth import get_user_model
 
 from .models import UserAccessConfiguration
@@ -15,7 +14,7 @@ def has_access_to_panorama(user: User) -> bool:
 
     Return true if the user can access Panorama, i.e., if there is a record in the user access configuration model.
     """
-    return UserAccessConfiguration.objects.filter(user=user).exists()
+    return UserAccessConfiguration.objects.filter(user=user).exists() or user.is_superuser
 
 
 def get_user_role(user: User) -> str:
@@ -26,7 +25,11 @@ def get_user_role(user: User) -> str:
     """
     user_access_configuration = UserAccessConfiguration.objects.get(user=user)
 
-    return user_access_configuration.role
+    if user_access_configuration:
+        return user_access_configuration.role
+    else:
+        if user.is_superuser:
+            return "READER"
 
 
 def get_user_arn(user: User) -> str:
@@ -58,3 +61,4 @@ def get_user_dashboards(user: User) -> list:
         })
 
     return dashboard_list
+
