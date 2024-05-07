@@ -9,9 +9,9 @@ Change Log
 
    This project adheres to Semantic Versioning (https://semver.org/).
 
-.. There should always be an "Unreleased" section for changes pending release.
+.. There should always be an "Version 16.0.1 (2024-05-07)" section for changes pending release.
 
-Unreleased
+Version 16.0.1 (2024-05-07)
 **********
 
 * Initial release
