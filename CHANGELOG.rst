@@ -14,12 +14,4 @@ Change Log
 Unreleased
 **********
 
-*
-
-0.1.0 – 2024-04-19
-**********************************************
-
-Added
-=====
-
-* First release on PyPI.
+* Initial release

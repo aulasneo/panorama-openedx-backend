@@ -1,13 +1,6 @@
 panorama-openedx-backend
 #############################
 
-.. note::
-
-  This README was auto-generated. Maintainer: please review its contents and
-  update all relevant sections. Instructions to you are marked with
-  "PLACEHOLDER" or "TODO". Update or remove those sections, and remove this
-  note when you are done.
-
 |pypi-badge| |ci-badge| |codecov-badge| |doc-badge| |pyversions-badge|
 |license-badge| |status-badge|
 
@@ -15,12 +8,6 @@ Purpose
 *******
 
 Django app that implements backend functions for Panorama MFE
-
-TODO: The ``README.rst`` file should start with a brief description of the repository and its purpose.
-It should be described in the context of other repositories under the ``openedx``
-organization. It should make clear where this fits in to the overall Open edX
-codebase and should be oriented towards people who are new to the Open edX
-project.
 
 Getting Started with Development
 ********************************
@@ -30,27 +17,12 @@ Please see the Open edX documentation for `guidance on Python development <https
 Deploying
 *********
 
-TODO: How can a new user go about deploying this component? Is it just a few
-commands? Is there a larger how-to that should be linked here?
+Do not deploy this plugin directly. Use the `Tutor Panorama plugin`_ instead.
 
-PLACEHOLDER: For details on how to deploy this component, see the `deployment how-to`_
-
-.. _deployment how-to: https://docs.openedx.org/projects/panorama-openedx-backend/how-tos/how-to-deploy-this-component.html
+.. _Tutor Panorama plugin: https://github.com/aulasneo/tutor-contrib-panorama
 
 Getting Help
 ************
-
-Documentation
-=============
-
-PLACEHOLDER: Start by going through `the documentation`_.  If you need more help see below.
-
-.. _the documentation: https://docs.openedx.org/projects/panorama-openedx-backend
-
-(TODO: `Set up documentation <https://openedx.atlassian.net/wiki/spaces/DOC/pages/21627535/Publish+Documentation+on+Read+the+Docs>`_)
-
-More Help
-=========
 
 If you're having trouble, we have discussion forums at
 https://discuss.openedx.org where you can connect with others in the

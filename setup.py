@@ -149,7 +149,7 @@ setup(
     install_requires=load_requirements('requirements/base.in'),
     python_requires=">=3.8",
     zip_safe=False,
-    keywords='Python edx',
+    keywords='Panorama openedx backend MFE',
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Framework :: Django',
