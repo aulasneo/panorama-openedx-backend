@@ -1,15 +1,28 @@
 """
 panorama_openedx_backend Django application views.
 """
+import json
 
 import boto3
+import requests
+
 from django.conf import settings
+from panorama_openedx_backend.aws_sigv4_query.api import SigV4Request
+from panorama_openedx_backend.utils import (
+    get_user_arn,
+    get_user_dashboards,
+    get_user_role,
+    has_access_to_panorama,
+    panorama_mode
+)
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from urllib.error import HTTPError
 
-from panorama_openedx_backend.utils import get_user_arn, get_user_dashboards, get_user_role, has_access_to_panorama
+DEMO_DASHBOARDS_HOST = 'panorama-get-demo-dashboards.aulasneo.link'
+FREE_DASHBOARDS_HOST = 'panorama-get-free-dashboards.aulasneo.link'
+SAAS_DASHBOARDS_HOST = 'panorama-get-saas-dashboards.aulasneo.link'
 
 
 def get_quicksight_dashboards(user):
@@ -25,12 +38,6 @@ def get_quicksight_dashboards(user):
         "quicksight",
         region_name=settings.PANORAMA_REGION,
     )
-
-    """
-    getDashboardFreeApi?lms=example.com
-    getDashboardDemoApi
-    getDashboardSaasApi?lms=example.com&
-    """
 
     # CHECKING IF USER HAS A ARN SET
     quicksight_arn = get_user_arn(user)
@@ -91,9 +98,76 @@ def get_quicksight_dashboards(user):
     return dashboards_of_user
 
 
+def get_demo_dashboards(user) -> dict:
+    """
+    Get the demo dashboards from the Aulasneo Panorama API.
+    """
+    lms_base = settings.LMS_BASE
+
+    method = 'GET'
+    url = 'https://' + DEMO_DASHBOARDS_HOST + '/getDashboardDemoApi'
+    headers = {}
+    params = {
+        'lms': lms_base,
+        'user': user.username
+    }
+
+    response = requests.request(
+        method=method, url=url,
+        # headers=headers,
+        data={},
+        timeout=5,
+        params=params)
+    response.raise_for_status()
+
+    dashboards = json.loads(response.content)
+
+    return dashboards
+
+
+def make_signed_get(host: str, uri: str, user) -> dict:
+    """
+    Use Signed V4 requests to make a signed call to an AWS API gateway.
+    """
+    sigv4_request = SigV4Request(
+        access_key=settings.PANORAMA_AWS_ACCESS_KEY,
+        secret_key=settings.PANORAMA_AWS_SECRET_ACCESS_KEY,
+        region='us-east-1',
+    )
+
+    response = sigv4_request.get(
+        host=host,
+        uri=uri,
+        lms=settings.LMS_BASE,
+        user=user.username,
+    )
+    response.raise_for_status()
+
+    return json.loads(response.content)
+
+
+def get_free_dashboards(user) -> dict:
+    """
+    Get the free dashboards from the Aulasneo Panorama API.
+    This call must be signed by the AWS user configured.
+    """
+    dashboards = make_signed_get(FREE_DASHBOARDS_HOST, 'getDashboardFreeApi', user)
+    return dashboards
+
+
+def get_saas_dashboards(user) -> dict:
+    """
+    Get the SaaS dashboards from the Aulasneo Panorama API.
+    This call must be signed by the AWS user configured.
+    """
+    dashboards = make_signed_get(SAAS_DASHBOARDS_HOST, 'getDashboardSaasApi', user)
+    return dashboards
+
+
 class GetDashboardEmbedUrl(APIView):
     """
-    get dashboard embed url class
+    View that returns the Panorama dashboads embed URLs for the session's user,
+    depending on the Panorama mode configured.
     """
     permission_classes = (IsAuthenticated,)
 
@@ -103,11 +177,36 @@ class GetDashboardEmbedUrl(APIView):
         """
 
         try:
-            dashboards_of_user = get_quicksight_dashboards(request.user)
-        except HTTPError as e:
+            mode = panorama_mode()
+
+            if mode == 'DEMO':
+                dashboards_of_user = get_demo_dashboards(request.user)
+
+            elif mode == 'FREE':
+                dashboards_of_user = get_free_dashboards(request.user)
+
+            elif mode == 'SAAS':
+                dashboards_of_user = get_saas_dashboards(request.user)
+
+            elif mode == 'CUSTOM':
+                dashboards_of_user = get_quicksight_dashboards(request.user)
+
+            else:
+                return Response({
+                    'statusCode': 400,
+                    'body': f"Unsupported Panorama mode '{panorama_mode}'"
+                })
+
+        except requests.exceptions.HTTPError as e:
+            if hasattr(e, 'response'):
+                err_code = e.response.status_code
+                msg = e.response.text
+            else:
+                err_code = 400
+                msg = e.strerror
             return Response({
-                'statusCode': e.code,
-                'body': e.reason
+                'statusCode': err_code,
+                'body': msg
             })
 
         return Response({
@@ -118,28 +217,41 @@ class GetDashboardEmbedUrl(APIView):
 
 class GetUserAccess(APIView):
     """
-    get user access class
+    View that checks if the users can access Panorama.
+    A user can access Panorama if it is superuser or has a record in the Django admin configuration.
     """
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
-
         return Response({
             'statusCode': 200,
-            'body': has_access_to_panorama(request.user)
+            'body': has_access_to_panorama(request.user, panorama_mode())
         })
 
 
 class GetUserRole(APIView):
     """
-    get user role class
+    Retrieve the user role (READER, AUTHOR, etc.) from the Panorama Django admin configuration.
     """
 
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
-
         return Response({
             'statusCode': 200,
-            'body': get_user_role(request.user),
+            'body': get_user_role(request.user, panorama_mode()),
+        })
+
+
+class GetPanoramaMode(APIView):
+    """
+    View that checks if the users can access Panorama.
+    A user can access Panorama if it is superuser or has a record in the Django admin configuration.
+    """
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        return Response({
+            'statusCode': 200,
+            'body': panorama_mode()
         })

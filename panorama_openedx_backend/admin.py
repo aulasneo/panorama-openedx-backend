@@ -11,6 +11,7 @@ usage:          register the custom Django models in LMS Django Admin
 import logging
 
 from django.contrib import admin
+from django.conf import settings
 
 from .models import Dashboard, DashboardType, UserAccessConfiguration
 
@@ -40,7 +41,10 @@ class UserAccessConfigurationAdmin(admin.ModelAdmin):
     list_display = ["user", "dashboard_type", "arn", "role"]
 
 
-logger.debug("Registering Panorama admin")
-admin.site.register(Dashboard, DashboardAdmin)
-admin.site.register(DashboardType, DashboardTypeAdmin)
-admin.site.register(UserAccessConfiguration, UserAccessConfigurationAdmin)
+if settings.PANORAMA_MODE in ['SAAS', 'CUSTOM']:
+    logger.info(f"Registering Panorama admin for mode '{settings.PANORAMA_MODE}'")
+    admin.site.register(Dashboard, DashboardAdmin)
+    admin.site.register(DashboardType, DashboardTypeAdmin)
+    admin.site.register(UserAccessConfiguration, UserAccessConfigurationAdmin)
+else:
+    logger.info(f"Panorama mode {settings.PANORAMA_MODE}. Skipping admin interface registration")

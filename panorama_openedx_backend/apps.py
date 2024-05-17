@@ -19,7 +19,7 @@ class PanoramaOpenedxBackendConfig(AppConfig):
     plugin_app = {
         'url_config': {
             'lms.djangoapp': {
-                # 'namespace': 'panorama',
+                'namespace': 'panorama',
                 'regex': 'panorama/api',
                 'relative_path': 'urls',
             },
@@ -31,3 +31,5 @@ class PanoramaOpenedxBackendConfig(AppConfig):
             },
         },
     }
+
+    logger.info("Panorama backend initialized")
