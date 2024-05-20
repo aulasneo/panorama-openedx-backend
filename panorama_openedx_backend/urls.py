@@ -3,7 +3,7 @@ URLs for panorama_openedx_backend.
 """
 from django.urls import re_path
 
-from panorama_openedx_backend.api.views import GetDashboardEmbedUrl, GetUserAccess, GetUserRole, GetPanoramaMode
+from panorama_openedx_backend.views import GetDashboardEmbedUrl, GetUserAccess, GetUserRole, GetPanoramaMode
 
 urlpatterns = [
     # TODO: Fill in URL patterns and views here.

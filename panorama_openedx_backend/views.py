@@ -6,6 +6,7 @@ import json
 import boto3
 import requests
 
+from . import __version__
 from django.conf import settings
 from panorama_openedx_backend.aws_sigv4_query.api import SigV4Request
 from panorama_openedx_backend.utils import (
@@ -109,7 +110,8 @@ def get_demo_dashboards(user) -> dict:
     headers = {}
     params = {
         'lms': lms_base,
-        'user': user.username
+        'user': user.username,
+        'version': __version__,
     }
 
     response = requests.request(
@@ -140,6 +142,7 @@ def make_signed_get(host: str, uri: str, user) -> dict:
         uri=uri,
         lms=settings.LMS_BASE,
         user=user.username,
+        version=__version__,
     )
     response.raise_for_status()
 
