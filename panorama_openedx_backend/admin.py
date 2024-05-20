@@ -40,11 +40,11 @@ class DashboardTypeAdmin(admin.ModelAdmin):
 class UserAccessConfigurationAdmin(admin.ModelAdmin):
     list_display = ["user", "dashboard_type", "arn", "role"]
 
-
-if settings.PANORAMA_MODE in ['SAAS', 'CUSTOM']:
-    logger.info(f"Registering Panorama admin for mode '{settings.PANORAMA_MODE}'")
+panorama_mode = getattr(settings, 'PANORAMA_MODE', 'DEMO')
+if panorama_mode in ['SAAS', 'CUSTOM']:
+    logger.info(f"Registering Panorama admin for mode '{panorama_mode}'")
     admin.site.register(Dashboard, DashboardAdmin)
     admin.site.register(DashboardType, DashboardTypeAdmin)
     admin.site.register(UserAccessConfiguration, UserAccessConfigurationAdmin)
 else:
-    logger.info(f"Panorama mode {settings.PANORAMA_MODE}. Skipping admin interface registration")
+    logger.info(f"Panorama mode {panorama_mode}. Skipping admin interface registration")
