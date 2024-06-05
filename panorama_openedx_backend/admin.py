@@ -10,8 +10,8 @@ usage:          register the custom Django models in LMS Django Admin
 """
 import logging
 
-from django.contrib import admin
 from django.conf import settings
+from django.contrib import admin
 
 from .models import Dashboard, DashboardType, UserAccessConfiguration
 
@@ -39,6 +39,7 @@ class DashboardTypeAdmin(admin.ModelAdmin):
 
 class UserAccessConfigurationAdmin(admin.ModelAdmin):
     list_display = ["user", "dashboard_type", "arn", "role"]
+
 
 panorama_mode = getattr(settings, 'PANORAMA_MODE', 'DEMO')
 if panorama_mode in ['SAAS', 'CUSTOM']:

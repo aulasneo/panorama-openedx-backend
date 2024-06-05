@@ -1,8 +1,10 @@
-import os
+"""
+Make signed v4 requests to AWS.
+"""
 import boto3
+import requests
 from botocore.auth import SigV4Auth
 from botocore.awsrequest import AWSRequest
-import requests
 
 
 class SigV4Request:
