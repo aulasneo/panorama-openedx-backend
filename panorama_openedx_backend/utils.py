@@ -26,6 +26,7 @@ def has_access_to_panorama(user: User) -> bool:
 
     Return true if the user can access Panorama, i.e., if there is a record in the user access configuration model
     or if the user is superuser.
+    In SaaS and Custom modes, if the student view is enabled, everybody has access to Panorama.
     In DEMO mode, the backend may not be initialized so only superusers have access.
     """
     if panorama_mode() in ['DEMO', 'FREE']:
@@ -42,7 +43,7 @@ def get_user_role(user: User) -> str:
 
     In DEMO mode, the backend may not be initialized so superusers have READ access.
     """
-    if panorama_mode() == 'DEMO':
+    if panorama_mode() in ['DEMO', 'FREE']:
         return "READER" if user.is_superuser else None
     else:
         user_access_configuration = UserAccessConfiguration.objects.get(user=user)
@@ -50,7 +51,7 @@ def get_user_role(user: User) -> str:
         if user_access_configuration:
             return user_access_configuration.role
         else:
-            return "READER" if user.is_superuser else None
+            return "READER" if user.is_superuser else "STUDENT"
 
 
 def get_user_arn(user: User) -> str:
@@ -59,7 +60,7 @@ def get_user_arn(user: User) -> str:
     """
     user_access_configuration = UserAccessConfiguration.objects.get(user=user)
 
-    return user_access_configuration.arn
+    return user_access_configuration.arn or getattr(settings, "PANORAMA_DEFAULT_USER_ARN")
 
 
 def get_user_dashboards(user: User) -> list:

@@ -11,6 +11,12 @@ Change Log
 
 .. There should always be an "Version 16.0.3 (2024-06-05)" section for changes pending release.
 
+Unreleased
+**********
+
+* Return "STUDENT" user role in SAAS and CUSTOM modes.
+* Return PANORAMA_DEFAULT_USER_ARN if there is no user access configuration.
+
 Version 16.0.3 (2024-06-05)
 **********
 
