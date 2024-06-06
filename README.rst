@@ -1,6 +1,9 @@
 panorama-openedx-backend
 #############################
 
+This is a Django app for Open edX that implements all backend functions
+needed by the Panorama MFE to work.
+
 |pypi-badge| |ci-badge| |codecov-badge| |doc-badge| |pyversions-badge|
 |license-badge| |status-badge|
 
@@ -8,6 +11,13 @@ Purpose
 *******
 
 Django app that implements backend functions for Panorama MFE
+
+`Panorama <https://aulasneo.com/open-edx-analytics/>`_ is the ultimate
+analytics system for Open edX and more.
+
+This code is not intended to be installed by itself.
+To install Panorama in your Open edX instance please install the
+`Panorama Tutor plugin <https://github.com/aulasneo/tutor-contrib-panorama>`_.
 
 Getting Started with Development
 ********************************
@@ -17,30 +27,24 @@ Please see the Open edX documentation for `guidance on Python development <https
 Deploying
 *********
 
-Do not deploy this plugin directly. Use the `Tutor Panorama plugin`_ instead.
+To deploy for development, add a simple Tutor plugin with:
 
-.. _Tutor Panorama plugin: https://github.com/aulasneo/tutor-contrib-panorama
+.. code-block:: python
+
+    from tutor import hooks as tutor_hooks
+
+    tutor_hooks.Filters.MOUNTED_DIRECTORIES.add_item(("openedx", "panorama-openedx-backend"))
+
+Then use `tutor mounts` to mount your local copy of the repo.
 
 Getting Help
 ************
 
-If you're having trouble, we have discussion forums at
-https://discuss.openedx.org where you can connect with others in the
-community.
+Contact
+=============
 
-Our real-time conversations are on Slack. You can request a `Slack
-invitation`_, then join our `community Slack workspace`_.
+Contact us at https://aulasneo.com if you need support.
 
-For anything non-trivial, the best path is to open an issue in this
-repository with as many details about the issue you are facing as you
-can provide.
-
-https://github.com/aulasneo/panorama-openedx-backend/issues
-
-For more information about these options, see the `Getting Help <https://openedx.org/getting-help>`__ page.
-
-.. _Slack invitation: https://openedx.org/slack
-.. _community Slack workspace: https://openedx.slack.com/
 
 License
 *******
@@ -54,7 +58,6 @@ Contributing
 ************
 
 Contributions are very welcome.
-Please read `How To Contribute <https://openedx.org/r/how-to-contribute>`_ for details.
 
 This project is currently accepting all types of contributions, bug fixes,
 security fixes, maintenance work, or new features.  However, please make sure
@@ -63,26 +66,10 @@ beginning development to maximize the chances of your change being accepted.
 You can start a conversation by creating a new issue on this repo summarizing
 your idea.
 
-The Open edX Code of Conduct
-****************************
-
-All community members are expected to follow the `Open edX Code of Conduct`_.
-
-.. _Open edX Code of Conduct: https://openedx.org/code-of-conduct/
-
-People
-******
-
-The assigned maintainers for this component and other project details may be
-found in `Backstage`_. Backstage pulls this data from the ``catalog-info.yaml``
-file in this repo.
-
-.. _Backstage: https://backstage.openedx.org/catalog/default/component/panorama-openedx-backend
-
 Reporting Security Issues
 *************************
 
-Please do not report security issues in public. Please email security@openedx.org.
+Please do not report security issues in public. Please email info@aulasneo.com.
 
 .. |pypi-badge| image:: https://img.shields.io/pypi/v/panorama-openedx-backend.svg
     :target: https://pypi.python.org/pypi/panorama-openedx-backend/
@@ -108,8 +95,7 @@ Please do not report security issues in public. Please email security@openedx.or
     :target: https://github.com/aulasneo/panorama-openedx-backend/blob/main/LICENSE.txt
     :alt: License
 
-.. TODO: Choose one of the statuses below and remove the other status-badge lines.
-.. |status-badge| image:: https://img.shields.io/badge/Status-Experimental-yellow
-.. .. |status-badge| image:: https://img.shields.io/badge/Status-Maintained-brightgreen
+.. .. |status-badge| image:: https://img.shields.io/badge/Status-Experimental-yellow
+.. |status-badge| image:: https://img.shields.io/badge/Status-Maintained-brightgreen
 .. .. |status-badge| image:: https://img.shields.io/badge/Status-Deprecated-orange
 .. .. |status-badge| image:: https://img.shields.io/badge/Status-Unsupported-red

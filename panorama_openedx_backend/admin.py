@@ -10,6 +10,7 @@ usage:          register the custom Django models in LMS Django Admin
 """
 import logging
 
+from django.conf import settings
 from django.contrib import admin
 
 from .models import Dashboard, DashboardType, UserAccessConfiguration
@@ -40,7 +41,11 @@ class UserAccessConfigurationAdmin(admin.ModelAdmin):
     list_display = ["user", "dashboard_type", "arn", "role"]
 
 
-logger.debug("Registering Panorama admin")
-admin.site.register(Dashboard, DashboardAdmin)
-admin.site.register(DashboardType, DashboardTypeAdmin)
-admin.site.register(UserAccessConfiguration, UserAccessConfigurationAdmin)
+panorama_mode = getattr(settings, 'PANORAMA_MODE', 'DEMO')
+if panorama_mode in ['SAAS', 'CUSTOM']:
+    logger.info(f"Registering Panorama admin for mode '{panorama_mode}'")
+    admin.site.register(Dashboard, DashboardAdmin)
+    admin.site.register(DashboardType, DashboardTypeAdmin)
+    admin.site.register(UserAccessConfiguration, UserAccessConfigurationAdmin)
+else:
+    logger.info(f"Panorama mode {panorama_mode}. Skipping admin interface registration")

@@ -76,6 +76,15 @@ class DashboardType(TimeStampedModel):
 
     dashboards = models.ManyToManyField("Dashboard")
 
+    student_view = models.BooleanField(
+        verbose_name="Available to students",
+        default=False,
+        help_text=_("If enabled, these dashboards will be made available to students. "
+                    "Important: these dashboards must include the parameters 'userId' and 'lms', have filters "
+                    "applying these parameters to all visuals, and the dashboard must be shared disabling users "
+                    "to access any filter.")
+    )
+
     def __str__(self):
         """
         Get a string representation of this model instance.
