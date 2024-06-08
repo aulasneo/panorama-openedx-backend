@@ -137,7 +137,7 @@ def get_demo_dashboards(user) -> dict:
     return dashboards
 
 
-def make_signed_get(host: str, uri: str, user, **params) -> dict:
+def make_signed_get(host: str, uri: str, user) -> dict:
     """
     Use Signed V4 requests to make a signed call to an AWS API gateway.
     """
@@ -153,7 +153,6 @@ def make_signed_get(host: str, uri: str, user, **params) -> dict:
         lms=settings.LMS_BASE,
         user=user.username,
         version=__version__,
-        params=params
     )
     response.raise_for_status()
 
@@ -169,7 +168,7 @@ def get_free_dashboards(user) -> dict:
     if settings.HTTPS != 'on':
         raise ValueError('Only supported in HTTPS sessions.')
 
-    dashboards = make_signed_get(FREE_DASHBOARDS_HOST, 'getDashboardFreeApi', user)
+    dashboards = make_signed_get(FREE_DASHBOARDS_HOST, 'get-free-dashboards', user)
     return dashboards
 
 
@@ -182,7 +181,7 @@ def get_saas_dashboards(user) -> dict:
     if settings.HTTPS != 'on':
         raise ValueError('Only supported in HTTPS sessions.')
 
-    dashboards = make_signed_get(SAAS_DASHBOARDS_HOST, 'getDashboardSaasApi', user)
+    dashboards = make_signed_get(SAAS_DASHBOARDS_HOST, 'get-saas-dashboards', user)
     return dashboards
 
 

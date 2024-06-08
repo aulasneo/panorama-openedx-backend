@@ -1,10 +1,14 @@
 """
 Make signed v4 requests to AWS.
 """
+import logging
+
 import boto3
 import requests
 from botocore.auth import SigV4Auth
 from botocore.awsrequest import AWSRequest
+
+logger = logging.getLogger(__name__)
 
 
 class SigV4Request:

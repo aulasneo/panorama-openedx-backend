@@ -11,6 +11,11 @@ Change Log
 
 .. There should always be an "Version 16.0.3 (2024-06-05)" section for changes pending release.
 
+Unreleased
+**********
+
+* Fix SigV4 calls
+
 Version 16.0.4 (2024-06-06)
 **********
 
