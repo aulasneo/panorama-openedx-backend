@@ -11,6 +11,12 @@ Change Log
 
 .. There should always be an "Version 16.0.3 (2024-06-05)" section for changes pending release.
 
+Unreleased
+**********
+
+* Add user role (dashboard_function) to the signed requests to the api.
+  This allows for Author, AI and Student views in SaaS modes.
+
 Version 16.0.5 (2024-06-08)
 **********
 

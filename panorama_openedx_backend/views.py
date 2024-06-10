@@ -153,6 +153,7 @@ def make_signed_get(host: str, uri: str, user) -> dict:
         lms=settings.LMS_BASE,
         user=user.username,
         version=__version__,
+        dashboard_function=get_user_role(user)
     )
     response.raise_for_status()
 
