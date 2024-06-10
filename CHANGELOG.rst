@@ -11,7 +11,7 @@ Change Log
 
 .. There should always be an "Version 16.0.3 (2024-06-05)" section for changes pending release.
 
-Unreleased
+Version 16.0.6 (2024-06-10)
 **********
 
 * Add user role (dashboard_function) to the signed requests to the api.
