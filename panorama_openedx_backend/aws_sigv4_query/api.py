@@ -47,7 +47,7 @@ class SigV4Request:
 
         SigV4Auth(self.session.get_credentials(), service, self.region).add_auth(aws_request)
 
-        response = requests.request(method, url, headers=dict(aws_request.headers), data={}, timeout=5, params=params)
+        response = requests.request(method, url, headers=dict(aws_request.headers), data={}, timeout=60, params=params)
         response.raise_for_status()
 
         return response
