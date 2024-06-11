@@ -9,9 +9,9 @@ Change Log
 
    This project adheres to Semantic Versioning (https://semver.org/).
 
-.. There should always be an "Unreleased (2024-06-05)" section for changes pending release.
+.. There should always be an "Version 16.0.9 (2024-06-11) (2024-06-05)" section for changes pending release.
 
-Unreleased
+Version 16.0.9 (2024-06-11)
 **********
 
 * Manage nonexistent user access configuration
