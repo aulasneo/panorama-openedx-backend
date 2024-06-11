@@ -44,30 +44,37 @@ def get_user_role(user: User) -> str:
     In DEMO mode, the backend may not be initialized so superusers have READ access.
     """
     if panorama_mode() in ['DEMO', 'FREE']:
-        return "READER" if user.is_superuser else None
+        role = "READER" if user.is_superuser else None
     else:
-        user_access_configuration = UserAccessConfiguration.objects.get(user=user)
+        try:
+            user_access_configuration = UserAccessConfiguration.objects.get(user=user)
+            role = user_access_configuration.role
+        except UserAccessConfiguration.DoesNotExist:
+            role = "READER" if user.is_superuser else "STUDENT"
 
-        if user_access_configuration:
-            return user_access_configuration.role
-        else:
-            return "READER" if user.is_superuser else "STUDENT"
+    return role
 
 
 def get_user_arn(user: User) -> str:
     """
     Get the AWS user ARN mapping to this user.
     """
-    user_access_configuration = UserAccessConfiguration.objects.get(user=user)
-
-    return user_access_configuration.arn or settings["PANORAMA_DEFAULT_USER_ARN"]
+    try:
+        user_access_configuration = UserAccessConfiguration.objects.get(user=user)
+        return user_access_configuration.arn
+    except UserAccessConfiguration.DoesNotExist:
+        settings["PANORAMA_DEFAULT_USER_ARN"]
 
 
 def get_user_dashboards(user: User) -> list:
     """
     Get the list of user dashboards to import from the Django admin configuration.
     """
-    user_access_configuration = UserAccessConfiguration.objects.get(user=user)
+    try:
+        user_access_configuration = UserAccessConfiguration.objects.get(user=user)
+    except UserAccessConfiguration.DoesNotExist:
+        return []
+
     dashboard_type = user_access_configuration.dashboard_type
 
     dashboard_list = []
