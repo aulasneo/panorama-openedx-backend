@@ -11,6 +11,11 @@ Change Log
 
 .. There should always be an "Version 16.0.3 (2024-06-05)" section for changes pending release.
 
+Unreleased
+**********
+
+* Show "available to students" field in the "dashboard type"'s admin list.
+
 Version 16.0.7 (2024-06-10)
 **********
 

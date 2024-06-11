@@ -33,7 +33,7 @@ class DashboardAdmin(admin.ModelAdmin):
 
 
 class DashboardTypeAdmin(admin.ModelAdmin):
-    list_display = ["name"]
+    list_display = ["name", "student_view"]
     filter_horizontal = ["dashboards"]
 
 
