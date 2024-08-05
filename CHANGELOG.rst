@@ -9,8 +9,8 @@ Change Log
 
    This project adheres to Semantic Versioning (https://semver.org/).
 
-Unreleased
-***************************
+Version 16.0.10 (2024-08-05)
+****************************
 
 * fix: Fix bug when retrieving the default user arn from the settings.
 * fix: Fix allowed domain when generating embed url
