@@ -9,6 +9,11 @@ Change Log
 
    This project adheres to Semantic Versioning (https://semver.org/).
 
+Unreleased
+***************************
+
+* fix: Fix bug when retrieving the default user arn from the settings.
+
 Version 16.0.9 (2024-06-11)
 ***************************
 

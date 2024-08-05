@@ -63,7 +63,7 @@ def get_user_arn(user: User) -> str:
         user_access_configuration = UserAccessConfiguration.objects.get(user=user)
         return user_access_configuration.arn
     except UserAccessConfiguration.DoesNotExist:
-        settings["PANORAMA_DEFAULT_USER_ARN"]
+        return settings.PANORAMA_DEFAULT_USER_ARN
 
 
 def get_user_dashboards(user: User) -> list:
