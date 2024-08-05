@@ -13,6 +13,7 @@ Unreleased
 ***************************
 
 * fix: Fix bug when retrieving the default user arn from the settings.
+* fix: Fix allowed domain when generating embed url
 
 Version 16.0.9 (2024-06-11)
 ***************************
