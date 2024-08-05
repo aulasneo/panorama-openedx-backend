@@ -91,7 +91,7 @@ def get_quicksight_dashboards(user):
             raise ValueError(f"Unsupported user role {user_role}")
 
         response = quicksight.generate_embed_url_for_registered_user(
-            AllowedDomains=[f"*.{settings.LMS_BASE}"],
+            AllowedDomains=[f"https://*.{settings.LMS_BASE}"],
             AwsAccountId=settings.PANORAMA_AWS_ACCOUNT_ID,
             SessionLifetimeInMinutes=123,
             UserArn=quicksight_arn,
