@@ -9,7 +9,7 @@ Change Log
 
    This project adheres to Semantic Versioning (https://semver.org/).
 
-Unreleased
+Version 16.0.12 (2024-08-09)
 ****************************
 
 * fix: Support STUDENT role
