@@ -9,6 +9,12 @@ Change Log
 
    This project adheres to Semantic Versioning (https://semver.org/).
 
+Unreleased
+****************************
+
+* fix: return student dashboards if the user is not listed in the access
+  configuration and the student view is enabled.
+
 Version 16.0.10 (2024-08-05)
 ****************************
 
