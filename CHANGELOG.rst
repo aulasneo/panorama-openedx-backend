@@ -9,7 +9,7 @@ Change Log
 
    This project adheres to Semantic Versioning (https://semver.org/).
 
-Unreleased
+Version 16.0.11 (2024-08-09)
 ****************************
 
 * fix: return student dashboards if the user is not listed in the access
