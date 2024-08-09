@@ -72,20 +72,24 @@ def get_user_dashboards(user: User) -> list:
     """
     try:
         user_access_configuration = UserAccessConfiguration.objects.get(user=user)
+
+        dashboard_type = user_access_configuration.dashboard_type
+
+        dashboard_list = []
+        for dashboard in dashboard_type.dashboards.all().order_by('priority'):
+            dashboard_list.append({
+                "name": dashboard.name,
+                "displayName": dashboard.display_name,
+                "id": dashboard.dashboard_id,
+            })
+
+        return dashboard_list
+
     except UserAccessConfiguration.DoesNotExist:
-        return []
-
-    dashboard_type = user_access_configuration.dashboard_type
-
-    dashboard_list = []
-    for dashboard in dashboard_type.dashboards.all().order_by('priority'):
-        dashboard_list.append({
-            "name": dashboard.name,
-            "displayName": dashboard.display_name,
-            "id": dashboard.dashboard_id,
-        })
-
-    return dashboard_list
+        if settings.PANORAMA_ENABLE_STUDENT_VIEW:
+            return get_student_dashboards()
+        else:
+            return []
 
 
 def get_student_dashboards() -> list:
