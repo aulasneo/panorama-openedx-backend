@@ -61,7 +61,7 @@ def get_quicksight_dashboards(user):
     for dashboard in dashboards_of_user:
 
         # SETTING EXPERIENCE CONFIG ACCORDING TO USER ROLE
-        if user_role == "READER":
+        if user_role in ["READER", "STUDENT"]:
             experience_config = {
                 'Dashboard': {
                     'InitialDashboardId': dashboard['id'],
