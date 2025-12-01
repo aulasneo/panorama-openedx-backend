@@ -244,6 +244,61 @@ class GetDashboardEmbedUrl(APIView):
             'body': dashboards_of_user
         })
 
+class GetStudioEmbedUrl(APIView):
+    """
+    Returns a QuickSight Console (AUTHOR) embed URL.
+    """
+
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        try:
+            quicksight_arn = get_user_arn(request.user)
+            if not quicksight_arn:
+                return Response({"error": "User ARN not assigned"}, status=400)
+
+            session = boto3.Session(
+                aws_access_key_id=settings.PANORAMA_AWS_ACCESS_KEY,
+                aws_secret_access_key=settings.PANORAMA_AWS_SECRET_ACCESS_KEY
+            )
+
+            quicksight = session.client(
+                "quicksight",
+                region_name=settings.PANORAMA_REGION,
+            )
+
+            experience_config = {
+                "QuickSightConsole": {
+                    "InitialPath": "/start",
+                    "FeatureConfigurations": {
+                        "StatePersistence": {"Enabled": True}
+                    }
+                }
+            }
+
+            response = quicksight.generate_embed_url_for_registered_user(
+                AllowedDomains=[f"https://*.{settings.LMS_BASE}"],
+                AwsAccountId=settings.PANORAMA_AWS_ACCOUNT_ID,
+                SessionLifetimeInMinutes=120,
+                UserArn=quicksight_arn,
+                ExperienceConfiguration=experience_config,
+            )
+
+            return Response(
+                {
+                    "statusCode": 200,
+                    "body": [{
+                        "name": "console",
+                        "displayName": "Console",
+                        "url": response["EmbedUrl"]
+                    }]
+                }
+            )
+
+        except Exception as e:
+            logger.error(f"Error generating console URL: {str(e)}")
+            return Response({"error": str(e)}, status=500)
+
 
 class GetUserAccess(APIView):
     """
