@@ -9,7 +9,7 @@ Change Log
 
    This project adheres to Semantic Versioning (https://semver.org/).
 
-Unreleased
+Version 16.0.13 (2025-12-02)
 ****************************
 
 Fix dashboard views for author users
