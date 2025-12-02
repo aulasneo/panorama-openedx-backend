@@ -133,6 +133,7 @@ setup(
     version=VERSION,
     description="""Django app that implements backend functions for Panorama MFE""",
     long_description=README + '\n\n' + CHANGELOG,
+    long_description_content_type='text/x-rst',
     author='Aulasneo',
     author_email='andres@aulasneo.com',
     url='https://github.com/aulasneo/panorama-openedx-backend',

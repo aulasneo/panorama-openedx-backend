@@ -63,3 +63,6 @@ docs/panorama_openedx_backend.*.rst
 # Private requirements
 requirements/private.in
 requirements/private.txt
+
+.idea
+pii_report

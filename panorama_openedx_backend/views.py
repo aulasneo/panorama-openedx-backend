@@ -60,35 +60,11 @@ def get_quicksight_dashboards(user):
 
     for dashboard in dashboards_of_user:
 
-        # SETTING EXPERIENCE CONFIG ACCORDING TO USER ROLE
-        if user_role in ["READER", "STUDENT"]:
-            experience_config = {
-                'Dashboard': {
-                    'InitialDashboardId': dashboard['id'],
-                }
+        experience_config = {
+            'Dashboard': {
+                'InitialDashboardId': dashboard['id'],
             }
-
-        elif user_role == "AUTHOR":
-            experience_config = {
-                'QuickSightConsole': {
-                    'InitialPath': "/start",
-                    'FeatureConfigurations': {
-                        'StatePersistence': {
-                            'Enabled': True
-                        },
-                    },
-                }
-            }
-
-        elif user_role == "AI_AUTHOR":
-            experience_config = {
-                'QSearchBar': {
-                    'InitialTopicId': "CVomHyE9Wf06YnPHcaFom4IFRSV2eAVv"
-                },
-            }
-
-        else:
-            raise ValueError(f"Unsupported user role {user_role}")
+        }
 
         response = quicksight.generate_embed_url_for_registered_user(
             AllowedDomains=[f"https://*.{settings.LMS_BASE}"],
