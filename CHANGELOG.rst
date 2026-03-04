@@ -9,7 +9,7 @@ Change Log
 
    This project adheres to Semantic Versioning (https://semver.org/).
 
-Unreleased
+Version 16.0.14 (2026-03-04)
 ****************************
 
 * Take the default user arn if not specified in the user access configuration (valid for custom mode only)
