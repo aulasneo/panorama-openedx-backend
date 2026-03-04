@@ -110,7 +110,8 @@ class UserAccessConfiguration(TimeStampedModel):
     arn = models.CharField(
         verbose_name='ARN',
         max_length=255,
-        blank=False,
+        blank=True,
+        null=True,
         primary_key=False,
         default='',
         unique=False,

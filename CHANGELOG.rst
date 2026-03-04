@@ -9,6 +9,14 @@ Change Log
 
    This project adheres to Semantic Versioning (https://semver.org/).
 
+Unreleased
+****************************
+
+* Return the default user ARN when the configured ARN is missing.
+* Make the UserAccessConfiguration ARN field optional.
+* Use a user lookup widget in the Django admin for the user access configuration.
+* Update tox to test against Django >= 4.2.
+
 Version 16.0.14 (2026-03-04)
 ****************************
 

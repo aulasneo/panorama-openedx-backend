@@ -39,6 +39,7 @@ class DashboardTypeAdmin(admin.ModelAdmin):
 
 class UserAccessConfigurationAdmin(admin.ModelAdmin):
     list_display = ["user", "dashboard_type", "arn", "role"]
+    raw_id_fields = ("user",)
 
 
 panorama_mode = getattr(settings, 'PANORAMA_MODE', 'DEMO')

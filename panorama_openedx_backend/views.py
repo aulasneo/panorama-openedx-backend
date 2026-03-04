@@ -6,6 +6,7 @@ import logging
 
 import boto3
 import requests
+from botocore.exceptions import BotoCoreError, ClientError
 from django.conf import settings
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -220,6 +221,7 @@ class GetDashboardEmbedUrl(APIView):
             'body': dashboards_of_user
         })
 
+
 class GetStudioEmbedUrl(APIView):
     """
     Returns a QuickSight Console (AUTHOR) embed URL.
@@ -228,6 +230,9 @@ class GetStudioEmbedUrl(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
+        """
+        Handle GET request to retrieve QuickSight Console embed URL.
+        """
         try:
             quicksight_arn = get_user_arn(request.user)
             if not quicksight_arn:
@@ -271,7 +276,7 @@ class GetStudioEmbedUrl(APIView):
                 }
             )
 
-        except Exception as e:
+        except (ClientError, BotoCoreError) as e:
             logger.error(f"Error generating console URL: {str(e)}")
             return Response({"error": str(e)}, status=500)
 
