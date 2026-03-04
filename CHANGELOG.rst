@@ -9,6 +9,11 @@ Change Log
 
    This project adheres to Semantic Versioning (https://semver.org/).
 
+Unreleased
+****************************
+
+* Take the default user arn if not specified in the user access configuration (valid for custom mode only)
+
 Version 16.0.13 (2025-12-02)
 ****************************
 

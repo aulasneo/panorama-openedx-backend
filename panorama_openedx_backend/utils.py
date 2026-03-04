@@ -61,7 +61,7 @@ def get_user_arn(user: User) -> str:
     """
     try:
         user_access_configuration = UserAccessConfiguration.objects.get(user=user)
-        return user_access_configuration.arn
+        return user_access_configuration.arn or settings.PANORAMA_DEFAULT_USER_ARN
     except UserAccessConfiguration.DoesNotExist:
         return settings.PANORAMA_DEFAULT_USER_ARN
 
