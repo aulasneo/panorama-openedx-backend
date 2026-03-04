@@ -9,7 +9,7 @@ Change Log
 
    This project adheres to Semantic Versioning (https://semver.org/).
 
-Unreleased
+Version 16.0.15 (2026-03-04)
 ****************************
 
 * Return the default user ARN when the configured ARN is missing.
