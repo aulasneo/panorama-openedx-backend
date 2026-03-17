@@ -9,8 +9,8 @@ Change Log
 
    This project adheres to Semantic Versioning (https://semver.org/).
 
-Unreleased
-**********
+Version 20.0.0 (2026-03-16)
+***************************
 
 * Align packaging, tox, CI, and pinned requirements with the Open edX Teak Python 3.11 baseline.
 
