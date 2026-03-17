@@ -6,7 +6,7 @@ import os
 import re
 import sys
 
-from setuptools import find_packages, setup
+from setuptools import find_namespace_packages, setup
 
 
 def get_version(*file_paths):
@@ -137,8 +137,8 @@ setup(
     author='Aulasneo',
     author_email='andres@aulasneo.com',
     url='https://github.com/aulasneo/panorama-openedx-backend',
-    packages=find_packages(
-        # include=['panorama_openedx_backend', 'panorama_openedx_backend.*'],
+    packages=find_namespace_packages(
+        include=['panorama_openedx_backend', 'panorama_openedx_backend.*', 'test_utils'],
         exclude=["*tests"],
     ),
     entry_points={
@@ -148,17 +148,17 @@ setup(
     },
     include_package_data=True,
     install_requires=load_requirements('requirements/base.in'),
-    python_requires=">=3.8",
+    license='LicenseRef-Proprietary',
+    python_requires=">=3.11",
     zip_safe=False,
     keywords='Panorama openedx backend MFE',
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Framework :: Django',
-        'Framework :: Django :: 3.2',
+        'Framework :: Django :: 4.2',
         'Intended Audience :: Developers',
-        'License :: Other/Proprietary License',
         'Natural Language :: English',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.11',
     ],
 )
