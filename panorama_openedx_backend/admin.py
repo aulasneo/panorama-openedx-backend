@@ -44,7 +44,7 @@ class UserAccessConfigurationAdmin(admin.ModelAdmin):
 
 panorama_mode = getattr(settings, 'PANORAMA_MODE', 'DEMO')
 if panorama_mode in ['SAAS', 'CUSTOM']:
-    logger.info(f"Registering Panorama admin for mode '{panorama_mode}'")
+    logger.debug(f"Registering Panorama admin for mode '{panorama_mode}'")
     admin.site.register(Dashboard, DashboardAdmin)
     admin.site.register(DashboardType, DashboardTypeAdmin)
     admin.site.register(UserAccessConfiguration, UserAccessConfigurationAdmin)
