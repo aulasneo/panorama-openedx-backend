@@ -2,8 +2,8 @@
 Tests for QuickSight dashboard URL handling.
 """
 
-from urllib.parse import parse_qsl, urlsplit
 from unittest.mock import Mock, patch
+from urllib.parse import parse_qsl, urlsplit
 
 import pytest
 from django.contrib.auth import get_user_model

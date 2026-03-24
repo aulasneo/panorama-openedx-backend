@@ -9,8 +9,8 @@ Change Log
 
    This project adheres to Semantic Versioning (https://semver.org/).
 
-Unreleased
-**********
+Version 20.0.1 (2026-03-24)
+***************************
 
 * Pass ``userId`` and ``lms`` learner parameters to student dashboard embed URLs in custom mode.
 * Update GitHub Actions workflows to Node 20 compatible action and reusable workflow versions.
