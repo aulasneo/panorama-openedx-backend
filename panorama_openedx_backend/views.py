@@ -3,6 +3,7 @@ panorama_openedx_backend Django application views.
 """
 import json
 import logging
+from urllib.parse import urlencode, urlsplit, urlunsplit
 
 import boto3
 import requests
@@ -28,6 +29,19 @@ logger = logging.getLogger(__name__)
 DEMO_DASHBOARDS_HOST = 'panorama-get-demo-dashboards.aulasneo.link'
 FREE_DASHBOARDS_HOST = 'panorama-get-free-dashboards.aulasneo.link'
 SAAS_DASHBOARDS_HOST = 'panorama-get-saas-dashboards.aulasneo.link'
+
+
+def add_student_parameters(embed_url: str, user) -> str:
+    """
+    Append the parameters required by student dashboards to the embed URL fragment.
+    """
+    student_params = urlencode([
+        ('p.userId', user.username),
+        ('p.lms', settings.LMS_BASE),
+    ])
+    url_parts = urlsplit(embed_url)
+    fragment = f'{url_parts.fragment}&{student_params}' if url_parts.fragment else student_params
+    return urlunsplit(url_parts._replace(fragment=fragment))
 
 
 def get_quicksight_dashboards(user):
@@ -75,6 +89,9 @@ def get_quicksight_dashboards(user):
             ExperienceConfiguration=experience_config
         )
         dashboard['url'] = response['EmbedUrl']
+        if dashboard.get('student_view'):
+            dashboard['url'] = add_student_parameters(dashboard['url'], user)
+        dashboard.pop('student_view', None)
 
     return dashboards_of_user
 

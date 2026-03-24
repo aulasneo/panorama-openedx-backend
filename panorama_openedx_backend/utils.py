@@ -81,6 +81,7 @@ def get_user_dashboards(user: User) -> list:
                 "name": dashboard.name,
                 "displayName": dashboard.display_name,
                 "id": dashboard.dashboard_id,
+                "student_view": dashboard_type.student_view,
             })
 
         return dashboard_list
@@ -105,6 +106,7 @@ def get_student_dashboards() -> list:
                 "name": dashboard.name,
                 "displayName": dashboard.display_name,
                 "id": dashboard.dashboard_id,
+                "student_view": True,
             })
 
     return dashboard_list
