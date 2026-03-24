@@ -7,4 +7,4 @@ on:
 
 jobs:
   commitlint:
-    uses: openedx/.github/.github/workflows/commitlint.yml@master
+    uses: openedx/.github/.github/workflows/commitlint.yml@ed52941fc25259c35a2ba57a998474976b645235

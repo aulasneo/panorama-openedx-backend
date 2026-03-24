@@ -19,9 +19,9 @@ jobs:
         toxenv: [quality, docs, pii_check, py311-django42]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v5
     - name: setup python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v6
       with:
         python-version: ${{ matrix.python-version }}
 
@@ -38,7 +38,7 @@ jobs:
 
     - name: Run coverage
       if: matrix.python-version == '3.11' && matrix.toxenv == 'py311-django42'
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v5
       with:
         flags: unittests
         fail_ci_if_error: true

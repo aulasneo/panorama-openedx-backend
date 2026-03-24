@@ -12,7 +12,7 @@ on:
 
 jobs:
   call-upgrade-python-requirements-workflow:
-    uses: openedx/.github/.github/workflows/upgrade-python-requirements.yml@7a1ecbfba472106c672909f4b5537217a6d317f2
+    uses: openedx/.github/.github/workflows/upgrade-python-requirements.yml@ed52941fc25259c35a2ba57a998474976b645235
     with:
       branch: ${{ github.event.inputs.branch || 'main' }}
       # optional parameters below; fill in if you'd like github or email notifications
