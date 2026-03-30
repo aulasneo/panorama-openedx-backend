@@ -4,7 +4,7 @@ All notable changes to `panorama_openedx_backend` are documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## Version 20.0.2 (2026-03-30)
 
 - Pass the numeric Django `user.id` as the `p.userId` learner parameter in student dashboard embed URLs.
 - Remove the legacy `AI_AUTHOR` role option and migrate existing assignments to `AUTHOR`.
