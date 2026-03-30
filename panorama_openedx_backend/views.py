@@ -31,12 +31,20 @@ FREE_DASHBOARDS_HOST = 'panorama-get-free-dashboards.aulasneo.link'
 SAAS_DASHBOARDS_HOST = 'panorama-get-saas-dashboards.aulasneo.link'
 
 
+def get_student_full_name(user) -> str:
+    """
+    Resolve the student full name for dashboard parameters.
+    """
+    return user.userprofile.name or user.username
+
+
 def add_student_parameters(embed_url: str, user) -> str:
     """
     Append the parameters required by student dashboards to the embed URL fragment.
     """
     student_params = urlencode([
         ('p.userId', user.id),
+        ('p.userFullName', get_student_full_name(user)),
         ('p.lms', settings.LMS_BASE),
     ])
     url_parts = urlsplit(embed_url)

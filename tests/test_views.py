@@ -59,6 +59,8 @@ def test_get_quicksight_dashboards_adds_student_parameters(
     settings.PANORAMA_MODE = 'CUSTOM'
 
     user = User.objects.create_user(username='student-01')
+    user.userprofile = Mock(name='Jane Student')
+    user.userprofile.name = 'Jane Student'
     mock_get_user_dashboards.return_value = [{
         'name': 'student-dashboard',
         'displayName': 'Student dashboard',
@@ -80,7 +82,7 @@ def test_get_quicksight_dashboards_adds_student_parameters(
         'id': 'dashboard-1',
         'url': (
             'https://quicksight.aws.amazon.com/embed/registered/dashboard-1'
-            f'#p.userId={user.id}&p.lms=courses.example.com'
+            f'#p.userId={user.id}&p.userFullName=Jane+Student&p.lms=courses.example.com'
         ),
     }]
 
@@ -90,7 +92,9 @@ def test_add_student_parameters_preserves_existing_fragment(settings):
     Student parameters should be appended to existing fragment state.
     """
     settings.LMS_BASE = 'courses.example.com'
-    user = Mock(id=42)
+    user = Mock(id=42, username='student-42')
+    user.userprofile = Mock(name='Student Forty Two')
+    user.userprofile.name = 'Student Forty Two'
 
     updated_url = add_student_parameters(
         'https://quicksight.aws.amazon.com/embed/dashboard#sheet=abc',
@@ -102,5 +106,29 @@ def test_add_student_parameters_preserves_existing_fragment(settings):
     assert fragment_params == {
         'sheet': 'abc',
         'p.userId': '42',
+        'p.userFullName': 'Student Forty Two',
+        'p.lms': 'courses.example.com',
+    }
+
+
+def test_add_student_parameters_falls_back_to_username(settings):
+    """
+    Student full name should fall back to username when the profile name is empty.
+    """
+    settings.LMS_BASE = 'courses.example.com'
+    user = Mock(id=42, username='student-42')
+    user.userprofile = Mock(name='')
+    user.userprofile.name = ''
+
+    updated_url = add_student_parameters(
+        'https://quicksight.aws.amazon.com/embed/dashboard',
+        user,
+    )
+
+    fragment_params = dict(parse_qsl(urlsplit(updated_url).fragment))
+
+    assert fragment_params == {
+        'p.userId': '42',
+        'p.userFullName': 'student-42',
         'p.lms': 'courses.example.com',
     }
