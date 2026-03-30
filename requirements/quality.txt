@@ -154,6 +154,8 @@ six==1.17.0
     #   -r requirements/test.txt
     #   edx-lint
     #   python-dateutil
+setuptools==80.9.0
+    # via -r requirements/quality.in
 snowballstemmer==3.0.1
     # via pydocstyle
 sqlparse==0.5.5
