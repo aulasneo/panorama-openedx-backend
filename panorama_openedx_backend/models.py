@@ -11,7 +11,6 @@ User = get_user_model()
 ROLES = [
     ("READER", "Reader"),
     ("AUTHOR", "Author"),
-    ("AI_AUTHOR", "AI Author"),
 ]
 
 
