@@ -16,8 +16,6 @@ babel==2.18.0
     # via
     #   pydata-sphinx-theme
     #   sphinx
-backports-tarfile==1.2.0
-    # via jaraco-context
 beautifulsoup4==4.14.3
     # via pydata-sphinx-theme
 boto3==1.34.87
@@ -50,21 +48,19 @@ coverage[toml]==7.13.4
 django==4.2.29
     # via
     #   -c https://raw.githubusercontent.com/openedx/edx-lint/v5.4.1/edx_lint/files/common_constraints.txt
+    #   -r requirements/test.txt
     #   django-model-utils
     #   djangorestframework
 django-model-utils==5.0.0
     # via -r requirements/test.txt
-django-rest-framework==0.1.0
+djangorestframework==3.17.1
     # via -r requirements/test.txt
-djangorestframework==3.16.1
-    # via
-    #   -r requirements/test.txt
-    #   django-rest-framework
 doc8==2.0.0
     # via -r requirements/doc.in
 docutils==0.21.2
     # via
     #   doc8
+    #   myst-parser
     #   pydata-sphinx-theme
     #   readme-renderer
     #   restructuredtext-lint
@@ -77,8 +73,6 @@ idna==3.11
     #   requests
 imagesize==2.0.0
     # via sphinx
-importlib-metadata==8.7.1
-    # via keyring
 iniconfig==2.3.0
     # via
     #   -r requirements/test.txt
@@ -93,6 +87,7 @@ jinja2==3.1.6
     # via
     #   -r requirements/test.txt
     #   code-annotations
+    #   myst-parser
     #   sphinx
 jmespath==1.1.0
     # via
@@ -104,16 +99,17 @@ keyring==25.7.0
 markdown-it-py==3.0.0
     # via
     #   -r requirements/doc.in
+    #   mdit-py-plugins
     #   myst-parser
     #   rich
-mdurl==0.1.2
-    # via markdown-it-py
 markupsafe==3.0.3
     # via
     #   -r requirements/test.txt
     #   jinja2
 mdit-py-plugins==0.5.0
     # via myst-parser
+mdurl==0.1.2
+    # via markdown-it-py
 more-itertools==10.8.0
     # via
     #   jaraco-classes
@@ -138,8 +134,9 @@ pluggy==1.6.0
     #   pytest-cov
 pydata-sphinx-theme==0.16.1
     # via sphinx-book-theme
-pygments==2.19.2
+pygments==2.20.0
     # via
+    #   -c requirements/constraints.txt
     #   -r requirements/test.txt
     #   accessible-pygments
     #   doc8
@@ -171,9 +168,10 @@ pyyaml==6.0.3
     # via
     #   -r requirements/test.txt
     #   code-annotations
+    #   myst-parser
 readme-renderer==44.0
     # via twine
-requests==2.32.5
+requests==2.33.1
     # via
     #   -r requirements/test.txt
     #   requests-toolbelt
@@ -188,6 +186,8 @@ rfc3986==2.0.0
 rich==14.3.3
     # via twine
 roman-numerals==4.1.0
+    # via roman-numerals-py
+roman-numerals-py==4.1.0
     # via sphinx
 s3transfer==0.10.4
     # via
@@ -204,6 +204,7 @@ soupsieve==2.8.3
 sphinx==8.2.3
     # via
     #   -r requirements/doc.in
+    #   myst-parser
     #   pydata-sphinx-theme
     #   sphinx-book-theme
 sphinx-book-theme==1.2.0
@@ -246,5 +247,3 @@ urllib3==2.6.3
     #   id
     #   requests
     #   twine
-zipp==3.23.0
-    # via importlib-metadata

@@ -11,3 +11,6 @@
 # Common constraints for Teak-era Open edX repos.
 # openedx/edx-lint does not publish named-release branches, so pin to a tag.
 -c https://raw.githubusercontent.com/openedx/edx-lint/v5.4.1/edx_lint/files/common_constraints.txt
+
+# Pin Pygments to a non-vulnerable release across test and docs tooling.
+pygments>=2.20.0

@@ -48,16 +48,13 @@ dill==0.4.1
 django==4.2.29
     # via
     #   -c https://raw.githubusercontent.com/openedx/edx-lint/v5.4.1/edx_lint/files/common_constraints.txt
+    #   -r requirements/test.txt
     #   django-model-utils
     #   djangorestframework
 django-model-utils==5.0.0
     # via -r requirements/test.txt
-django-rest-framework==0.1.0
+djangorestframework==3.17.1
     # via -r requirements/test.txt
-djangorestframework==3.16.1
-    # via
-    #   -r requirements/test.txt
-    #   django-rest-framework
 edx-lint==6.0.0
     # via -r requirements/quality.in
 idna==3.11
@@ -104,8 +101,9 @@ pycodestyle==2.14.0
     # via -r requirements/quality.in
 pydocstyle==6.3.0
     # via -r requirements/quality.in
-pygments==2.19.2
+pygments==2.20.0
     # via
+    #   -c requirements/constraints.txt
     #   -r requirements/test.txt
     #   pytest
 pylint==4.0.5
@@ -143,7 +141,7 @@ pyyaml==6.0.3
     # via
     #   -r requirements/test.txt
     #   code-annotations
-requests==2.32.5
+requests==2.33.1
     # via -r requirements/test.txt
 s3transfer==0.10.4
     # via
@@ -177,3 +175,5 @@ urllib3==2.6.3
     #   -r requirements/test.txt
     #   botocore
     #   requests
+
+# The following packages are considered to be unsafe in a requirements file:
