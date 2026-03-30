@@ -126,13 +126,12 @@ if sys.argv[-1] == 'tag':
     sys.exit()
 
 README = open(os.path.join(os.path.dirname(__file__), 'README.rst'), encoding="utf8").read()
-CHANGELOG = open(os.path.join(os.path.dirname(__file__), 'CHANGELOG.rst'), encoding="utf8").read()
 
 setup(
     name='panorama-openedx-backend',
     version=VERSION,
     description="""Django app that implements backend functions for Panorama MFE""",
-    long_description=README + '\n\n' + CHANGELOG,
+    long_description=README,
     long_description_content_type='text/x-rst',
     author='Aulasneo',
     author_email='andres@aulasneo.com',

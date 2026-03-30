@@ -5,6 +5,7 @@
 
 doc8                      # reStructuredText style checker
 sphinx-book-theme         # Common theme for all Open edX projects
+myst-parser               # Markdown support for Sphinx docs
 twine                     # Validates README.rst for usage on PyPI
 build                     # Needed to build the wheel for twine check
 Sphinx                    # Documentation builder
