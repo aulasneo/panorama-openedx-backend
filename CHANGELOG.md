@@ -4,7 +4,7 @@ All notable changes to `panorama_openedx_backend` are documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## Version 20.0.3 (2026-03-30)
 
 - Pass the learner full name as `p.userFullName` in student dashboard embed URLs, using `userprofile.name` with fallback to `user.username`.
 
