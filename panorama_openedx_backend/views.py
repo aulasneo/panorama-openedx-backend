@@ -36,7 +36,7 @@ def add_student_parameters(embed_url: str, user) -> str:
     Append the parameters required by student dashboards to the embed URL fragment.
     """
     student_params = urlencode([
-        ('p.userId', user.username),
+        ('p.userId', user.id),
         ('p.lms', settings.LMS_BASE),
     ])
     url_parts = urlsplit(embed_url)

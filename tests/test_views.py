@@ -80,7 +80,7 @@ def test_get_quicksight_dashboards_adds_student_parameters(
         'id': 'dashboard-1',
         'url': (
             'https://quicksight.aws.amazon.com/embed/registered/dashboard-1'
-            '#p.userId=student-01&p.lms=courses.example.com'
+            f'#p.userId={user.id}&p.lms=courses.example.com'
         ),
     }]
 
@@ -90,7 +90,7 @@ def test_add_student_parameters_preserves_existing_fragment(settings):
     Student parameters should be appended to existing fragment state.
     """
     settings.LMS_BASE = 'courses.example.com'
-    user = Mock(username='student-01')
+    user = Mock(id=42)
 
     updated_url = add_student_parameters(
         'https://quicksight.aws.amazon.com/embed/dashboard#sheet=abc',
@@ -101,6 +101,6 @@ def test_add_student_parameters_preserves_existing_fragment(settings):
 
     assert fragment_params == {
         'sheet': 'abc',
-        'p.userId': 'student-01',
+        'p.userId': '42',
         'p.lms': 'courses.example.com',
     }
