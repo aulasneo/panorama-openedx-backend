@@ -35,7 +35,7 @@ def get_student_full_name(user) -> str:
     """
     Resolve the student full name for dashboard parameters.
     """
-    return user.userprofile.name or user.username
+    return user.profile.name or user.username
 
 
 def add_student_parameters(embed_url: str, user) -> str:
