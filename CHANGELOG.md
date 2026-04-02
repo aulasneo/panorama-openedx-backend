@@ -4,7 +4,7 @@ All notable changes to `panorama_openedx_backend` are documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## Version 21.0.0 (2026-04-02)
 
 - Upgrade to Ulmo
 
