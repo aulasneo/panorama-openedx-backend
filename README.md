@@ -51,7 +51,7 @@ Contact us at <https://aulasneo.com> if you need support.
 The code in this repository is licensed under the Not open source unless
 otherwise noted.
 
-Please see [LICENSE.txt](LICENSE.txt) for details.
+Please see `LICENSE.txt` for details.
 
 ## Contributing
 
