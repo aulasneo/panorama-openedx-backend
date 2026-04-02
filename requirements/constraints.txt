@@ -8,9 +8,12 @@
 # pin when possible.  Writing an issue against the offending project and
 # linking to it here is good.
 
-# Common constraints for Teak-era Open edX repos.
+# Common constraints for Ulmo-era Open edX repos / Tutor 21.
 # openedx/edx-lint does not publish named-release branches, so pin to a tag.
--c https://raw.githubusercontent.com/openedx/edx-lint/v5.4.1/edx_lint/files/common_constraints.txt
+-c https://raw.githubusercontent.com/openedx/edx-lint/v6.0.0/edx_lint/files/common_constraints.txt
+
+# Ulmo uses Django 5.2 as the supported LTS line.
+Django>=5.2,<5.3
 
 # Pin Pygments to a non-vulnerable release across test and docs tooling.
 pygments>=2.20.0

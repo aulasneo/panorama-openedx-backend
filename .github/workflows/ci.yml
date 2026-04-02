@@ -6,6 +6,7 @@ on:
   pull_request:
     branches:
     - '**'
+  workflow_dispatch:
 
 
 jobs:
@@ -14,12 +15,12 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-22.04]
+        os: [ubuntu-latest]
         python-version: ['3.11']
-        toxenv: [quality, docs, pii_check, py311-django42]
+        toxenv: [quality, docs, pii_check, django52]
 
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
     - name: setup python
       uses: actions/setup-python@v6
       with:

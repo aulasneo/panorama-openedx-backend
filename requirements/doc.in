@@ -7,6 +7,6 @@ doc8                      # reStructuredText style checker
 sphinx-book-theme         # Common theme for all Open edX projects
 myst-parser               # Markdown support for Sphinx docs
 markdown-it-py<4          # keep MyST and rich on a compatible parser major version
-twine                     # Validates README.rst for usage on PyPI
+twine                     # Validates README.md for usage on PyPI
 build                     # Needed to build the wheel for twine check
 Sphinx<9                  # MyST 4.x support currently stops before Sphinx 9
