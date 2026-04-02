@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-asgiref==3.11.1
+asgiref==3.10.0
     # via
     #   -r requirements/quality.txt
     #   django
@@ -13,9 +13,9 @@ astroid==4.0.4
     #   -r requirements/quality.txt
     #   pylint
     #   pylint-celery
-boto3==1.34.87
+boto3==1.40.62
     # via -r requirements/quality.txt
-botocore==1.34.162
+botocore==1.40.62
     # via
     #   -r requirements/quality.txt
     #   boto3
@@ -72,9 +72,9 @@ distlib==0.4.0
     # via
     #   -r requirements/ci.txt
     #   virtualenv
-django==4.2.29
+django==5.2.11
     # via
-    #   -c https://raw.githubusercontent.com/openedx/edx-lint/v5.4.1/edx_lint/files/common_constraints.txt
+    #   -c requirements/constraints.txt
     #   -r requirements/quality.txt
     #   django-model-utils
     #   djangorestframework
