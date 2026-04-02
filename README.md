@@ -5,7 +5,6 @@ by the Panorama MFE to work.
 
 [![PyPI](https://img.shields.io/pypi/v/panorama-openedx-backend.svg)](https://pypi.python.org/pypi/panorama-openedx-backend/)
 [![CI](https://github.com/aulasneo/panorama-openedx-backend/workflows/Python%20CI/badge.svg?branch=main)](https://github.com/aulasneo/panorama-openedx-backend/actions)
-[![Codecov](https://codecov.io/github/aulasneo/panorama-openedx-backend/coverage.svg?branch=main)](https://codecov.io/github/aulasneo/panorama-openedx-backend?branch=main)
 [![Documentation](https://readthedocs.org/projects/panorama-openedx-backend/badge/?version=latest)](https://docs.openedx.org/projects/panorama-openedx-backend)
 [![Supported Python versions](https://img.shields.io/pypi/pyversions/panorama-openedx-backend.svg)](https://pypi.python.org/pypi/panorama-openedx-backend/)
 [![License](https://img.shields.io/github/license/aulasneo/panorama-openedx-backend.svg)](https://github.com/aulasneo/panorama-openedx-backend/blob/main/LICENSE.txt)
