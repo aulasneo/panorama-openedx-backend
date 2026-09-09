@@ -1,0 +1,54 @@
+panorama_openedx_backend/views.py
+  s_fc06a46b08c17a::t_ba540bf497e6a4 34-62,128,166,191,291-294,354,359
+  s_fc06a46b08c17a::t_a85bb4367e092d 224,232
+  s_fc06a46b08c17a::t_cdec39f712e543 163
+  s_fc06a46b08c17a::t_d79138638c4f0a 12,67,220-223,225-231,233-249,258,288-289,295,308,314-315,360
+setup.py
+  s_fc06a46b08c17a::t_d79138638c4f0a 162
+requirements/base.in
+  s_fc06a46b08c17a::t_d79138638c4f0a 10-11
+.github/workflows/ci.yml
+  s_fc06a46b08c17a::t_d79138638c4f0a 19
+panorama_openedx_backend/migrations/0008_normalize_reader_role.py
+  s_fc06a46b08c17a::t_d79138638c4f0a 1-31
+tests/test_access_and_errors.py
+  s_fc06a46b08c17a::t_1e1a132dbb2670 1-4,6-26,29-37,39-46,48-58,60-87,89-97,99-101,103-110,112-119,121-123,150-151,153-172
+  s_fc06a46b08c17a::t_95e9c769877325 27-28,102
+  s_fc06a46b08c17a::t_3f8d10153d4e3b 5,173-228
+  s_fc06a46b08c17a::t_b317d900418b1b 38,47,59,88,98,111,120,126,152
+  s_fc06a46b08c17a::t_cdec39f712e543 124-125,127-149
+panorama_openedx_backend/models.py
+  s_fc06a46b08c17a::t_d79138638c4f0a 82-83,123
+requirements/base.txt
+  s_fc06a46b08c17a::t_9bf907e34eee46 2,5,9,11-16,23,27,32-38,46-48,52-58,63,65
+requirements/constraints.txt
+  s_fc06a46b08c17a::t_d79138638c4f0a 11,15
+requirements/dev.txt
+  s_fc06a46b08c17a::t_dd2e6b3d36f24d 2,5,16-20,22,78,82,88-94,142-144,244-248,282,284
+tox.ini
+  s_fc06a46b08c17a::t_d79138638c4f0a 2
+requirements/verawood.txt
+  s_fc06a46b08c17a::t_d79138638c4f0a 1-13
+README.md
+  s_fc06a46b08c17a::t_44e6b2d9c697fb 26-86
+requirements/quality.txt
+  s_fc06a46b08c17a::t_1b730304804b5a 2,5,15-19,21,51,55,60-66,97-99,157-161,185,187
+requirements/test.txt
+  s_fc06a46b08c17a::t_613fbc8a85aae4 2,5,11,13-17,35,39,44-50,67-69,98-102,117,119
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "6ab56cd8e545cf31012b6b59e6754f5ddb9f2f0f",
+  "prompts": {},
+  "sessions": {
+    "s_fc06a46b08c17a": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a081aa-1820-7423-ace8-95212956e242",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Andrés González <andres@aulasneo.com>"
+    }
+  }
+}
