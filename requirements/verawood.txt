@@ -1,0 +1,13 @@
+# Compatibility baseline, NOT a newest-security-release recommendation.
+# edx-platform release/verawood.1: 9e67d1429d5ab49a36fb9881a26457efeee0bb89
+# https://github.com/openedx/edx-platform/blob/9e67d1429d5ab49a36fb9881a26457efeee0bb89/requirements/edx/base.txt
+# Pass explicitly while compiling/testing, not through package install_requires.
+django==5.2.13
+django-model-utils==5.0.0
+djangorestframework==3.17.1
+boto3==1.42.97
+botocore==1.42.97
+s3transfer==0.16.1
+requests==2.33.1
+openedx-atlas==0.7.0
+urllib3==2.6.3

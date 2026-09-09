@@ -7,4 +7,5 @@ djangorestframework
 openedx-atlas
 requests>=2.33.0
 
-boto3==1.40.62
+boto3>=1.42.97,<1.43
+botocore>=1.42.97,<1.43  # Imported directly by the signing and error handlers.

@@ -9,7 +9,7 @@ import boto3
 import requests
 from botocore.exceptions import BotoCoreError, ClientError
 from django.conf import settings
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import BasePermission, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -31,11 +31,40 @@ FREE_DASHBOARDS_HOST = 'panorama-get-free-dashboards.aulasneo.link'
 SAAS_DASHBOARDS_HOST = 'panorama-get-saas-dashboards.aulasneo.link'
 
 
+class InvalidProviderResponse(Exception):
+    """The provider returned valid JSON with an unusable embedding payload."""
+
+
+def validate_dashboard_response(dashboards):
+    """Check provider payload structure while preserving optional metadata."""
+    if not isinstance(dashboards, list):
+        raise InvalidProviderResponse()
+    for dashboard in dashboards:
+        if not isinstance(dashboard, dict):
+            raise InvalidProviderResponse()
+        if not isinstance(dashboard.get('url'), str) or not dashboard['url'].strip():
+            raise InvalidProviderResponse()
+        for key in ('name', 'displayName', 'display_name'):
+            if key in dashboard and not isinstance(dashboard[key], str):
+                raise InvalidProviderResponse()
+    return dashboards
+
+
+def get_provider_embed_url(response):
+    """Validate SDK responses before indexing or parsing their embed URL."""
+    if not isinstance(response, dict):
+        raise InvalidProviderResponse()
+    url = response.get('EmbedUrl')
+    if not isinstance(url, str) or not url.strip():
+        raise InvalidProviderResponse()
+    return url
+
+
 def get_student_full_name(user) -> str:
     """
     Resolve the student full name for dashboard parameters.
     """
-    return user.profile.name or user.username
+    return getattr(getattr(user, 'profile', None), 'name', '') or user.username
 
 
 def add_student_parameters(embed_url: str, user) -> str:
@@ -96,7 +125,7 @@ def get_quicksight_dashboards(user):
             UserArn=quicksight_arn,
             ExperienceConfiguration=experience_config
         )
-        dashboard['url'] = response['EmbedUrl']
+        dashboard['url'] = get_provider_embed_url(response)
         if dashboard.get('student_view'):
             dashboard['url'] = add_student_parameters(dashboard['url'], user)
         dashboard.pop('student_view', None)
@@ -131,10 +160,10 @@ def get_demo_dashboards(user) -> dict:
         timeout=30,
         params=params)
     if response.status_code != 200:
-        logger.error(f'Panorama error {response.status_code} getting demo dashboards: {response.content}')
+        logger.warning('Panorama demo provider returned HTTP %s', response.status_code)
     response.raise_for_status()
 
-    dashboards = json.loads(response.content)
+    dashboards = validate_dashboard_response(json.loads(response.content))
 
     return dashboards
 
@@ -159,7 +188,7 @@ def make_signed_get(host: str, uri: str, user) -> dict:
     )
     response.raise_for_status()
 
-    return json.loads(response.content)
+    return validate_dashboard_response(json.loads(response.content))
 
 
 def get_free_dashboards(user) -> dict:
@@ -188,6 +217,36 @@ def get_saas_dashboards(user) -> dict:
     return dashboards
 
 
+class HasPanoramaAccess(BasePermission):
+    """Enforce the same grants as the access endpoint before contacting providers."""
+
+    def has_permission(self, request, view):
+        """Check the authenticated user's configured Panorama access."""
+        return has_access_to_panorama(request.user)
+
+
+class IsPanoramaAuthor(BasePermission):
+    """Console embedding requires an explicit Panorama author grant."""
+
+    def has_permission(self, request, view):
+        """Require a configured author role independently of LMS staff status."""
+        return get_user_role(request.user) == 'AUTHOR'
+
+
+def embed_error_response(error):
+    """Translate provider failures without exposing upstream payloads or credentials."""
+    logger.warning('Panorama embed request failed: %s', type(error).__name__)
+    if isinstance(error, requests.exceptions.Timeout):
+        return Response({'error': 'Panorama provider timed out.'}, status=504)
+    if isinstance(error, requests.exceptions.HTTPError):
+        response = error.response
+        if response is not None and response.status_code in (401, 403):
+            return Response({'error': 'Panorama provider denied access.'}, status=response.status_code)
+    if isinstance(error, ValueError) and not isinstance(error, json.JSONDecodeError):
+        return Response({'error': 'Panorama embedding is not configured for this user.'}, status=400)
+    return Response({'error': 'Panorama provider could not generate an embed URL.'}, status=502)
+
+
 class GetDashboardEmbedUrl(APIView):
     """
     Get dashboard embed url.
@@ -196,7 +255,7 @@ class GetDashboardEmbedUrl(APIView):
     depending on the Panorama mode configured.
     """
 
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, HasPanoramaAccess)
 
     def get(self, request):
         """
@@ -226,20 +285,14 @@ class GetDashboardEmbedUrl(APIView):
             else:
                 return Response({
                     'statusCode': 400,
-                    'body': f"Unsupported Panorama mode '{panorama_mode}'"
-                })
+                    'body': f"Unsupported Panorama mode '{mode}'"
+                }, status=400)
 
-        except requests.exceptions.HTTPError as e:
-            if hasattr(e, 'response'):
-                err_code = e.response.status_code
-                msg = e.response.text
-            else:
-                err_code = 400
-                msg = e.strerror
-            return Response(
-                status=err_code,
-                data=msg
-            )
+            validate_dashboard_response(dashboards_of_user)
+
+        except (requests.exceptions.RequestException, ClientError, BotoCoreError,
+                ValueError, KeyError, InvalidProviderResponse) as error:
+            return embed_error_response(error)
 
         return Response({
             'statusCode': 200,
@@ -252,12 +305,14 @@ class GetStudioEmbedUrl(APIView):
     Returns a QuickSight Console (AUTHOR) embed URL.
     """
 
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, HasPanoramaAccess, IsPanoramaAuthor)
 
     def get(self, request):
         """
         Handle GET request to retrieve QuickSight Console embed URL.
         """
+        if settings.HTTPS != 'on':
+            return Response({'error': 'HTTP not supported. Use only HTTPS.'}, status=421)
         try:
             quicksight_arn = get_user_arn(request.user)
             if not quicksight_arn:
@@ -296,14 +351,13 @@ class GetStudioEmbedUrl(APIView):
                     "body": [{
                         "name": "console",
                         "displayName": "Console",
-                        "url": response["EmbedUrl"]
+                        "url": get_provider_embed_url(response)
                     }]
                 }
             )
 
-        except (ClientError, BotoCoreError) as e:
-            logger.error(f"Error generating console URL: {str(e)}")
-            return Response({"error": str(e)}, status=500)
+        except (ClientError, BotoCoreError, ValueError, KeyError, InvalidProviderResponse) as error:
+            return embed_error_response(error)
 
 
 class GetUserAccess(APIView):
