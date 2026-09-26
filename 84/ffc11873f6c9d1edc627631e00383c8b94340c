@@ -1,0 +1,60 @@
+requirements/ci.in
+  s_fb26e41eef3384::t_cfb5facc891ec5 4
+requirements/base.txt
+  s_fb26e41eef3384::t_47a7d825ac86b6 5,12,16,28,34,38,48,54
+requirements/runtime.in
+  s_fb26e41eef3384::t_cfb5facc891ec5 1-11
+requirements/test.in
+  s_fb26e41eef3384::t_cfb5facc891ec5 3
+requirements/base.in
+  s_fb26e41eef3384::t_cfb5facc891ec5 1-3
+requirements/quality.in
+  s_fb26e41eef3384::t_cfb5facc891ec5 4
+Makefile
+  s_fb26e41eef3384::t_cfb5facc891ec5 37,47-52
+README.md
+  s_fb26e41eef3384::t_cfb5facc891ec5 49-61
+setup.py
+  s_fb26e41eef3384::t_d5b8073cf6ebd9 149
+  s_fb26e41eef3384::t_4a4e8c175e9d87 151
+requirements/verawood.txt
+  s_fb26e41eef3384::t_cfb5facc891ec5 4
+tests/test_embed_error_regressions.py
+  s_fb26e41eef3384::t_31877eec09b884 1-71
+MANIFEST.in
+  s_fb26e41eef3384::t_cfb5facc891ec5 5-6
+requirements/doc.in
+  s_fb26e41eef3384::t_cfb5facc891ec5 3
+panorama_openedx_backend/views.py
+  s_fb26e41eef3384::t_31877eec09b884 238-248,255,276,325
+requirements/dev.in
+  s_fb26e41eef3384::t_cfb5facc891ec5 3
+tests/test_access_and_errors.py
+  s_fb26e41eef3384::t_29b4bbf5f61d1c 146,167-169,172-176
+requirements/ci.txt
+  s_fb26e41eef3384::t_8542f015fdf1c8 2,5
+requirements/dev.txt
+  s_fb26e41eef3384::t_d0005ccca73e5e 5
+requirements/doc.txt
+  s_fb26e41eef3384::t_f9381901afdfad 2,5,21-25,27,51,55,60-66,131-133,187,204,206,256,258
+requirements/quality.txt
+  s_fb26e41eef3384::t_d43760667a7e93 5
+requirements/test.txt
+  s_fb26e41eef3384::t_eefd2edba61b2d 5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "84ffc11873f6c9d1edc627631e00383c8b94340c",
+  "prompts": {},
+  "sessions": {
+    "s_fb26e41eef3384": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0917a-94e6-7ad1-b2aa-54fbd276d56f",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Andrés González <andres@aulasneo.com>"
+    }
+  }
+}
