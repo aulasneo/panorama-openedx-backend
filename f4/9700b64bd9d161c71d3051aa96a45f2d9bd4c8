@@ -1,0 +1,23 @@
+.github/workflows/release.yml
+  s_fb26e41eef3384::t_6563ed7cdbaf56 83-122
+panorama_openedx_backend/__init__.py
+  s_fb26e41eef3384::t_6563ed7cdbaf56 5
+.bumpversion.cfg
+  s_fb26e41eef3384::t_6563ed7cdbaf56 6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "f49700b64bd9d161c71d3051aa96a45f2d9bd4c8",
+  "prompts": {},
+  "sessions": {
+    "s_fb26e41eef3384": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0917a-94e6-7ad1-b2aa-54fbd276d56f",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Andrés González <andres@aulasneo.com>"
+    }
+  }
+}
