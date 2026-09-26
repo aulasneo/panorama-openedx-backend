@@ -1,0 +1,25 @@
+README.md
+  s_fb26e41eef3384::t_ba5f0e5237d730 52-54
+requirements/dev.txt
+  s_fb26e41eef3384::t_c541246b6b94cc 5,298-303
+Makefile
+  s_fb26e41eef3384::t_ba5f0e5237d730 50,52
+requirements/quality.txt
+  s_fb26e41eef3384::t_4db544d3945b01 5,193-194
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "4920068ccfea92c54790027060027f3d29444927",
+  "prompts": {},
+  "sessions": {
+    "s_fb26e41eef3384": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0917a-94e6-7ad1-b2aa-54fbd276d56f",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Andrés González <andres@aulasneo.com>"
+    }
+  }
+}
