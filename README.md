@@ -28,7 +28,7 @@ compatibility reference is edx-platform `release/verawood.1`, commit
 `9e67d1429d5ab49a36fb9881a26457efeee0bb89`. The local platform checkout used for
 source checks was `release/verawood` at `259473c5dfd1c82eac5e6c4d14bf6095cb25824d`;
 these are different commits, with matching shared dependency pins.
-[requirements/verawood.txt](requirements/verawood.txt) records the shared pins
+[requirements/verawood.txt](https://github.com/aulasneo/panorama-openedx-backend/blob/verawood/requirements/verawood.txt) records the shared pins
 from the exact release. They are compatibility baselines, not a claim that
 they are the newest security fixes. Review newer fixes with the platform
 maintainer; do not upgrade the LMS SDK independently or install development
