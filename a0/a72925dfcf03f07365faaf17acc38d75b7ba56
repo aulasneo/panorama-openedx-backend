@@ -1,0 +1,21 @@
+tests/test_embed_error_regressions.py
+  s_fb26e41eef3384::t_eeb34c567cad33 71-72
+README.md
+  s_fb26e41eef3384::t_eeb34c567cad33 31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "a0a72925dfcf03f07365faaf17acc38d75b7ba56",
+  "prompts": {},
+  "sessions": {
+    "s_fb26e41eef3384": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0917a-94e6-7ad1-b2aa-54fbd276d56f",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Andrés González <andres@aulasneo.com>"
+    }
+  }
+}
