@@ -80,6 +80,46 @@ jobs:
       - name: Build distributions
         run: python -m build
 
+      - name: Verify distribution versions match release tag
+        env:
+          TAG_NAME: ${{ inputs.tag_name || github.ref_name }}
+        run: |
+          python - <<'PY'
+          import os
+          import tarfile
+          import zipfile
+          from email.parser import BytesParser
+          from pathlib import Path
+
+          from packaging.utils import parse_sdist_filename, parse_wheel_filename
+          from packaging.version import Version
+
+          tag = os.environ['TAG_NAME']
+          if not tag.startswith('release/v'):
+              raise SystemExit(f'Invalid release tag: {tag}')
+          expected = Version(tag.removeprefix('release/v'))
+          wheels = list(Path('dist').glob('*.whl'))
+          sdists = list(Path('dist').glob('*.tar.gz'))
+          if len(wheels) != 1 or len(sdists) != 1:
+              raise SystemExit('Expected exactly one wheel and one source distribution')
+          for path in wheels + sdists:
+              if path.suffix == '.whl':
+                  filename_version = parse_wheel_filename(path.name)[1]
+                  with zipfile.ZipFile(path) as archive:
+                      metadata, = [n for n in archive.namelist() if n.endswith('.dist-info/METADATA')]
+                      content = archive.read(metadata)
+              else:
+                  filename_version = parse_sdist_filename(path.name)[1]
+                  with tarfile.open(path) as archive:
+                      metadata, = [m for m in archive.getmembers()
+                                   if m.name.count('/') == 1 and m.name.endswith('/PKG-INFO')]
+                      content = archive.extractfile(metadata).read()
+              versions = BytesParser().parsebytes(content).get_all('Version', [])
+              if len(versions) != 1 or Version(versions[0]) != expected or filename_version != expected:
+                  raise SystemExit(f'{tag} does not match {path.name}: metadata Version={versions}')
+              print(f'{path.name}: version matches {tag}')
+          PY
+
       - name: Check distributions with twine
         run: python -m twine check dist/*
 
