@@ -49,6 +49,9 @@ python3.12 -m venv .venv
 To recompile the dependent locks with Python 3.12, run
 `pip-compile --constraint requirements/verawood.txt --output-file requirements/NAME.txt requirements/NAME.in`
 for `base`, `test`, `doc`, `quality`, `ci`, then `dev`, in that order.
+Add `--allow-unsafe` when compiling `quality` and `dev` so pip-tools includes
+`setuptools`, which is required to lint `setup.py` and is not bundled with
+Python 3.12 virtual environments.
 The inputs also include the Verawood constraints, so direct compilation preserves
 the platform pins. Existing compatible lock pins are retained without `--upgrade`;
 new or incompatible dependencies may resolve to newer versions from the index.

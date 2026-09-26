@@ -47,9 +47,9 @@ upgrade: ## update the requirements/*.txt files with the latest packages satisfy
 	$(PLATFORM_PIP_COMPILE) -o requirements/base.txt requirements/base.in
 	$(PLATFORM_PIP_COMPILE) -o requirements/test.txt requirements/test.in
 	$(PLATFORM_PIP_COMPILE) -o requirements/doc.txt requirements/doc.in
-	$(PLATFORM_PIP_COMPILE) -o requirements/quality.txt requirements/quality.in
+	$(PLATFORM_PIP_COMPILE) --allow-unsafe -o requirements/quality.txt requirements/quality.in
 	$(PLATFORM_PIP_COMPILE) -o requirements/ci.txt requirements/ci.in
-	$(PLATFORM_PIP_COMPILE) -o requirements/dev.txt requirements/dev.in
+	$(PLATFORM_PIP_COMPILE) --allow-unsafe -o requirements/dev.txt requirements/dev.in
 
 quality: ## check coding style with pycodestyle and pylint
 	tox -e quality
