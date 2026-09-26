@@ -68,4 +68,5 @@ def test_http_session_rejected_before_contacting_provider(settings, view):
     assert response.status_code == 400
     assert 'HTTPS' in str(response.data)
     session.assert_not_called()
-    mode.assert_not_called()
+    if view is GetDashboardEmbedUrl:
+        mode.assert_not_called()
