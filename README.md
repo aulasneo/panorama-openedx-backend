@@ -46,10 +46,19 @@ python3.12 -m venv .venv
 .venv/bin/pip check
 ```
 
-To refresh the dependent locks together, run `pip-compile --constraint
-requirements/verawood.txt --output-file requirements/NAME.txt
-requirements/NAME.in` for `base`, `test`, `quality`, then `dev`, in that order.
-Recheck the release constraints whenever the target platform commit changes.
+To recompile the dependent locks with Python 3.12, run
+`pip-compile --constraint requirements/verawood.txt --output-file requirements/NAME.txt requirements/NAME.in`
+for `base`, `test`, `doc`, `quality`, `ci`, then `dev`, in that order.
+The inputs also include the Verawood constraints, so direct compilation preserves
+the platform pins. Existing compatible lock pins are retained without `--upgrade`;
+new or incompatible dependencies may resolve to newer versions from the index.
+Do not use `--no-index` unless you provide an offline package source.
+To deliberately upgrade other dependencies, use `make upgrade`: it updates
+unconstrained transitives while retaining the Verawood pins, including Django.
+Review the lock diffs and rerun CI after either operation. Recheck the release
+constraints whenever the target platform commit changes. Published package
+requirements come from `requirements/runtime.in`, which keeps compatible ranges
+instead of imposing the development locks on the LMS.
 
 ## Verawood access and migration checks
 

@@ -146,9 +146,9 @@ setup(
         ],
     },
     include_package_data=True,
-    install_requires=load_requirements('requirements/base.in'),
+    install_requires=load_requirements('requirements/runtime.in'),
     license='LicenseRef-Proprietary',
-    python_requires=">=3.11",
+    python_requires=">=3.12",
     zip_safe=False,
     keywords='Panorama openedx backend MFE',
     classifiers=[
@@ -158,7 +158,6 @@ setup(
         'Intended Audience :: Developers',
         'Natural Language :: English',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.11',
         'Programming Language :: Python :: 3.12',
     ],
 )

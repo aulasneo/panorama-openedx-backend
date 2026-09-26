@@ -1,5 +1,6 @@
 # Requirements for running tests in CI
 
 -c constraints.txt
+-c verawood.txt
 
 tox                       # Virtualenv management for tests

@@ -143,7 +143,7 @@ def test_author_console_embedding(learner, settings, https):
             generate.side_effect = NoCredentialsError()
             assert call(GetStudioEmbedUrl, learner).status_code == 502
         else:
-            assert response.status_code == 421
+            assert response.status_code == 400
             session.assert_not_called()
 
 
@@ -164,10 +164,16 @@ def test_reader_migration_repairs_only_known_spelling():
     try:
         executor = MigrationExecutor(connection)
         executor.migrate(new)
-        assert list(UserAccessConfiguration.objects.order_by('user_id').values_list('role', flat=True)) == [
+        migrated_apps = executor.loader.project_state(new).apps
+        migrated_access = migrated_apps.get_model('panorama_openedx_backend', 'UserAccessConfiguration')
+        assert list(migrated_access.objects.order_by('user_id').values_list('role', flat=True)) == [
             'READER', 'READER', 'AUTHOR',
         ]
-        assert UserAccessConfiguration._meta.get_field('role').default == 'READER'
+        # Django's field default belongs to migration state, not the database column.
+        default_user = migrated_apps.get_model('auth', 'User').objects.create(username='default-reader')
+        default_access = migrated_access.objects.create(user_id=default_user.pk, dashboard_type_id=group.pk)
+        default_access.refresh_from_db()
+        assert default_access.role == 'READER'
     finally:
         MigrationExecutor(connection).migrate(new)
 

@@ -235,14 +235,24 @@ class IsPanoramaAuthor(BasePermission):
 
 def embed_error_response(error):
     """Translate provider failures without exposing upstream payloads or credentials."""
-    logger.warning('Panorama embed request failed: %s', type(error).__name__)
+    status_code = None
+    error_code = None
+    if isinstance(error, ClientError):
+        status_code = error.response.get('ResponseMetadata', {}).get('HTTPStatusCode')
+        error_code = error.response.get('Error', {}).get('Code')
+    elif isinstance(error, requests.exceptions.HTTPError) and error.response is not None:
+        status_code = error.response.status_code
+    logger.warning(
+        'Panorama embed request failed: %s (status_code=%s, error_code=%s)',
+        type(error).__name__, status_code, error_code,
+    )
     if isinstance(error, requests.exceptions.Timeout):
         return Response({'error': 'Panorama provider timed out.'}, status=504)
     if isinstance(error, requests.exceptions.HTTPError):
         response = error.response
         if response is not None and response.status_code in (401, 403):
             return Response({'error': 'Panorama provider denied access.'}, status=response.status_code)
-    if isinstance(error, ValueError) and not isinstance(error, json.JSONDecodeError):
+    if isinstance(error, ValueError) and not isinstance(error, (json.JSONDecodeError, UnicodeDecodeError)):
         return Response({'error': 'Panorama embedding is not configured for this user.'}, status=400)
     return Response({'error': 'Panorama provider could not generate an embed URL.'}, status=502)
 
@@ -263,7 +273,7 @@ class GetDashboardEmbedUrl(APIView):
         """
         if settings.HTTPS != 'on':
             return Response(
-                status=421,
+                status=400,
                 data="HTTP not supported. Use only HTTPS."
             )
 
@@ -312,7 +322,7 @@ class GetStudioEmbedUrl(APIView):
         Handle GET request to retrieve QuickSight Console embed URL.
         """
         if settings.HTTPS != 'on':
-            return Response({'error': 'HTTP not supported. Use only HTTPS.'}, status=421)
+            return Response({'error': 'HTTP not supported. Use only HTTPS.'}, status=400)
         try:
             quicksight_arn = get_user_arn(request.user)
             if not quicksight_arn:

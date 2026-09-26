@@ -1,11 +1,3 @@
-# Core requirements for using this application
--c constraints.txt
-
-Django             # Web application framework
-django-model-utils        # Provides TimeStampedModel abstract base class
-djangorestframework
-openedx-atlas
-requests>=2.33.0
-
-boto3>=1.42.97,<1.43
-botocore>=1.42.97,<1.43  # Imported directly by the signing and error handlers.
+# Core requirements locked to the tested Open edX platform.
+-c verawood.txt
+-r runtime.in
