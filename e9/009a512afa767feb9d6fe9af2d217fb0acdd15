@@ -1,0 +1,19 @@
+README.md
+  s_fb26e41eef3384::t_101e8c8881ca60 31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "e9009a512afa767feb9d6fe9af2d217fb0acdd15",
+  "prompts": {},
+  "sessions": {
+    "s_fb26e41eef3384": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0917a-94e6-7ad1-b2aa-54fbd276d56f",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Andrés González <andres@aulasneo.com>"
+    }
+  }
+}
