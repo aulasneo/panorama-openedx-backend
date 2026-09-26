@@ -1,5 +1,6 @@
 # Requirements for test runs.
 -c constraints.txt
+-c verawood.txt
 
 -r base.txt               # Core dependencies for this package
 

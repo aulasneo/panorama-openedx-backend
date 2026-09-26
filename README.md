@@ -23,6 +23,79 @@ your Open edX instance, install the
 
 ## Getting Started With Development
 
+The Tutor 22 / Verawood target uses Python 3.12 and Django 5.2. The checked
+compatibility reference is edx-platform `release/verawood.1`, commit
+`9e67d1429d5ab49a36fb9881a26457efeee0bb89`. The local platform checkout used for
+source checks was `release/verawood` at `259473c5dfd1c82eac5e6c4d14bf6095cb25824d`;
+these are different commits, with matching shared dependency pins.
+[requirements/verawood.txt](https://github.com/aulasneo/panorama-openedx-backend/blob/main/requirements/verawood.txt) records the shared pins
+from the exact release. They are compatibility baselines, not a claim that
+they are the newest security fixes. Review newer fixes with the platform
+maintainer; do not upgrade the LMS SDK independently or install development
+locks into the LMS. Package requirements admit Verawood's AWS SDK without
+the old forced downgrade to 1.40.62.
+
+Use an isolated Python 3.12 environment:
+
+```sh
+python3.12 -m venv .venv
+.venv/bin/pip install -r requirements/test.txt -e .
+.venv/bin/pytest
+.venv/bin/python manage.py check
+.venv/bin/python manage.py makemigrations --check --dry-run
+.venv/bin/pip check
+```
+
+To recompile the dependent locks with Python 3.12, run
+`pip-compile --constraint requirements/verawood.txt --output-file requirements/NAME.txt requirements/NAME.in`
+for `base`, `test`, `doc`, `quality`, `ci`, then `dev`, in that order.
+Add `--allow-unsafe` when compiling `quality` and `dev` so pip-tools includes
+`setuptools`, which is required to lint `setup.py` and is not bundled with
+Python 3.12 virtual environments.
+The inputs also include the Verawood constraints, so direct compilation preserves
+the platform pins. Existing compatible lock pins are retained without `--upgrade`;
+new or incompatible dependencies may resolve to newer versions from the index.
+Do not use `--no-index` unless you provide an offline package source.
+To deliberately upgrade other dependencies, use `make upgrade`: it updates
+unconstrained transitives while retaining the Verawood pins, including Django.
+Review the lock diffs and rerun CI after either operation. Recheck the release
+constraints whenever the target platform commit changes. Published package
+requirements come from `requirements/runtime.in`, which keeps compatible ranges
+instead of imposing the development locks on the LMS.
+
+## Verawood access and migration checks
+
+Dashboard embedding now enforces the existing access endpoint's policy:
+DEMO/FREE allow superusers; SAAS/CUSTOM allow explicit dashboard grants,
+superusers, or authenticated learners when student view is enabled. Console
+embedding additionally requires the explicit `AUTHOR` role, including for
+superusers. Both embedding endpoints require HTTPS. Authentication failures
+retain DRF's configured session/JWT behavior; denied grants return 403 before
+any provider request. Provider timeouts return 504; malformed JSON, SDK and
+connection failures return 502; missing configuration returns 400. Upstream
+401/403 remain access errors, without leaking response bodies or credentials.
+Successful response envelopes are unchanged.
+
+Apply committed migration `0008_normalize_reader_role` with `migrate` (never
+generate migrations during initialization). It changes only historical
+`Reader` values to `READER` and updates the default. Inspect existing roles
+before upgrading with `UserAccessConfiguration.objects.values('role').annotate(
+count=Count('id'))` in the LMS shell (import `Count` from `django.db.models`).
+Other unexpected spellings are left for explicit operator review. Reversing
+this migration retains normalized data because the original spelling cannot
+be reconstructed safely.
+
+Student URL parameters `userId` and `lms` are client-controlled display
+filters, **not authorization**. Before enabling student view, verify
+dataset-side learner/tenant isolation with two students and tampered fragment
+parameters. This repository cannot establish isolation for deployed datasets.
+
+Local regression tests use SQLite and mocked providers. Staging still needs
+the final Verawood LMS image's plugin discovery, URL inclusion, settings,
+`migrate`, `pip check`, session/JWT login/expiry, real profile lookup, and
+registered-user dashboard/console embedding. No external services are needed
+for the local tests, and no local test proves production QuickSight isolation.
+
 Please see the Open edX documentation for
 [guidance on Python development](https://docs.openedx.org/en/latest/developers/how-tos/get-ready-for-python-dev.html)
 in this repo.

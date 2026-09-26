@@ -34,6 +34,7 @@ docs: ## generate Sphinx HTML documentation, including API docs
 
 # Define PIP_COMPILE_OPTS=-v to get more information during make upgrade.
 PIP_COMPILE = pip-compile --upgrade $(PIP_COMPILE_OPTS)
+PLATFORM_PIP_COMPILE = $(PIP_COMPILE) --constraint requirements/verawood.txt
 
 upgrade: export CUSTOM_COMPILE_COMMAND=make upgrade
 upgrade: ## update the requirements/*.txt files with the latest packages satisfying requirements/*.in
@@ -43,15 +44,12 @@ upgrade: ## update the requirements/*.txt files with the latest packages satisfy
 	$(PIP_COMPILE) -o requirements/pip-tools.txt requirements/pip-tools.in
 	pip install -qr requirements/pip.txt
 	pip install -qr requirements/pip-tools.txt
-	$(PIP_COMPILE) -o requirements/base.txt requirements/base.in
-	$(PIP_COMPILE) -o requirements/test.txt requirements/test.in
-	$(PIP_COMPILE) -o requirements/doc.txt requirements/doc.in
-	$(PIP_COMPILE) -o requirements/quality.txt requirements/quality.in
-	$(PIP_COMPILE) -o requirements/ci.txt requirements/ci.in
-	$(PIP_COMPILE) -o requirements/dev.txt requirements/dev.in
-	# Let tox control the Django version for tests
-	sed '/^[dD]jango==/d' requirements/test.txt > requirements/test.tmp
-	mv requirements/test.tmp requirements/test.txt
+	$(PLATFORM_PIP_COMPILE) -o requirements/base.txt requirements/base.in
+	$(PLATFORM_PIP_COMPILE) -o requirements/test.txt requirements/test.in
+	$(PLATFORM_PIP_COMPILE) -o requirements/doc.txt requirements/doc.in
+	$(PLATFORM_PIP_COMPILE) --allow-unsafe -o requirements/quality.txt requirements/quality.in
+	$(PLATFORM_PIP_COMPILE) -o requirements/ci.txt requirements/ci.in
+	$(PLATFORM_PIP_COMPILE) --allow-unsafe -o requirements/dev.txt requirements/dev.in
 
 quality: ## check coding style with pycodestyle and pylint
 	tox -e quality

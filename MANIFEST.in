@@ -2,6 +2,8 @@ include CHANGELOG.md
 include LICENSE.txt
 include README.md
 include requirements/base.in
+include requirements/runtime.in
+include requirements/verawood.txt
 include requirements/constraints.txt
 prune build
 prune dist

@@ -1,6 +1,7 @@
 # Requirements for code quality checks
 
 -c constraints.txt
+-c verawood.txt
 
 -r test.txt               # Core and testing dependencies for this package
 

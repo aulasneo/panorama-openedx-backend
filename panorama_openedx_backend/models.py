@@ -79,9 +79,8 @@ class DashboardType(TimeStampedModel):
         verbose_name="Available to students",
         default=False,
         help_text=_("If enabled, these dashboards will be made available to students. "
-                    "Important: these dashboards must include the parameters 'userId' and 'lms', have filters "
-                    "applying these parameters to all visuals, and the dashboard must be shared disabling users "
-                    "to access any filter.")
+                    "Parameters 'userId' and 'lms' are client-controlled display filters, not access controls. "
+                    "Require dataset-side isolation for each learner and tenant before enabling student access.")
     )
 
     def __str__(self):
@@ -121,7 +120,7 @@ class UserAccessConfiguration(TimeStampedModel):
         max_length=20,
         blank=False,
         primary_key=False,
-        default='Reader',
+        default='READER',
         unique=False,
         choices=ROLES,
         help_text=_("User role"),
